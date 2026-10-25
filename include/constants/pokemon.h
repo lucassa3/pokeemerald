@@ -92,7 +92,7 @@
 
 // Shiny odds
 #define SHINY_ODDS 8 // Actual probability is SHINY_ODDS/65536
-#define WILD_SHINY_ODDS 4 // Wild encounters are rerolled until shiny 1 in WILD_SHINY_ODDS times
+#define WILD_SHINY_ODDS 100 // Wild encounters are rerolled until shiny 1 in WILD_SHINY_ODDS times
 
 // Number of bits used to store each contest ribbon (the highest rank achieved)
 #define CONTEST_RIBBON_BITS 3
