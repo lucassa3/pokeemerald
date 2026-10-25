@@ -376,12 +376,34 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
+// Returns a personality that is shiny for the player's trainer ID and has the given nature (and gender, if matchGender)
+static u32 GenerateShinyWildPersonality(u16 species, u8 nature, u8 gender, bool8 matchGender)
+{
+    u32 otId = T1_READ_32(gSaveBlock2Ptr->playerTrainerId);
+    u32 personality;
+    u16 lo;
+
+    do
+    {
+        // Pick the high half so that GET_SHINY_VALUE(otId, personality) < SHINY_ODDS
+        lo = Random();
+        personality = ((u32)(HIHALF(otId) ^ LOHALF(otId) ^ lo ^ (Random() % SHINY_ODDS)) << 16) | lo;
+    }
+    while (nature != GetNatureFromPersonality(personality)
+        || (matchGender && gender != GetGenderFromSpeciesAndPersonality(species, personality)));
+
+    return personality;
+}
+
 static void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm;
+    bool32 isShiny;
+    u8 nature;
 
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
+    isShiny = (Random() % WILD_SHINY_ODDS == 0);
 
     switch (gSpeciesInfo[species].genderRatio)
     {
@@ -407,11 +429,19 @@ static void CreateWildMon(u16 species, u8 level)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
+        nature = PickWildMonNature();
+        if (isShiny)
+            CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, TRUE, GenerateShinyWildPersonality(species, nature, gender, TRUE), OT_ID_PLAYER_ID, 0);
+        else
+            CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, gender, nature, 0);
         return;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
+    nature = PickWildMonNature();
+    if (isShiny)
+        CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, TRUE, GenerateShinyWildPersonality(species, nature, 0, FALSE), OT_ID_PLAYER_ID, 0);
+    else
+        CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, nature);
 }
 #ifdef BUGFIX
 #define TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildPokemon, type, ability, ptr, count) TryGetAbilityInfluencedWildMonIndex(wildPokemon, type, ability, ptr, count)
