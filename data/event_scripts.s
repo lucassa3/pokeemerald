@@ -576,6 +576,12 @@ gStdScripts_End::
 	.include "data/maps/Route119_WeatherInstitute_2F/scripts.inc"
 	.include "data/maps/Route119_House/scripts.inc"
 	.include "data/maps/Route124_DivingTreasureHuntersHouse/scripts.inc"
+	.include "data/maps/OneIsland/scripts.inc"
+	.include "data/maps/OneIsland_Harbor/scripts.inc"
+	.include "data/maps/OneIsland_PokemonCenter_1F/scripts.inc"
+	.include "data/maps/OneIsland_PokemonCenter_2F/scripts.inc"
+	.include "data/maps/OneIsland_House1/scripts.inc"
+	.include "data/maps/OneIsland_House2/scripts.inc"
 
 	.include "data/scripts/std_msgbox.inc"
 	.include "data/scripts/trainer_battle.inc"

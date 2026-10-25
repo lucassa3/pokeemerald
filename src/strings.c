@@ -742,6 +742,7 @@ const u8 gText_BlueTent[] = _("BLUE TENT");
 const u8 gText_SouthernIsland[] = _("SOUTHERN ISLAND");
 const u8 gText_BirthIsland[] = _("BIRTH ISLAND");
 const u8 gText_FarawayIsland[] = _("FARAWAY ISLAND");
+const u8 gText_OneIsland[] = _("ONE ISLAND");
 const u8 gText_NavelRock[] = _("NAVEL ROCK");
 const u8 gText_ClawFossil[] = _("CLAW FOSSIL");
 const u8 gText_RootFossil[] = _("ROOT FOSSIL");

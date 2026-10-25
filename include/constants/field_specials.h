@@ -26,6 +26,10 @@
 
 #define SS_TIDAL_MAX_STEPS 205
 
+// Values for VAR_ONE_ISLAND_FERRY_PORT
+#define ONE_ISLAND_FERRY_FROM_SLATEPORT 0
+#define ONE_ISLAND_FERRY_FROM_LILYCOVE  1
+
 // Scrollable Multichoice Menus
 #define SCROLL_MULTI_NONE                                  0
 #define SCROLL_MULTI_GLASS_WORKSHOP_VENDOR                 1

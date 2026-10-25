@@ -163,19 +163,21 @@ SlateportCity_Harbor_EventScript_AskForTicket::
 
 SlateportCity_Harbor_EventScript_ChooseDestination::
 	goto_if_set FLAG_MET_SCOTT_ON_SS_TIDAL, SlateportCity_Harbor_EventScript_ChooseDestinationWithBattleFrontier
-	multichoicedefault 18, 8, MULTI_SSTIDAL_SLATEPORT_NO_BF, 2, FALSE
+	multichoicedefault 18, 6, MULTI_SSTIDAL_SLATEPORT_NO_BF, 2, FALSE
 	switch VAR_RESULT
 	case 0, SlateportCity_Harbor_EventScript_Lilycove
-	case 1, SlateportCity_Harbor_EventScript_CancelDestinationSelect
+	case 1, SlateportCity_Harbor_EventScript_OneIsland
+	case 2, SlateportCity_Harbor_EventScript_CancelDestinationSelect
 	case MULTI_B_PRESSED, SlateportCity_Harbor_EventScript_CancelDestinationSelect
 	end
 
 SlateportCity_Harbor_EventScript_ChooseDestinationWithBattleFrontier::
-	multichoicedefault 17, 6, MULTI_SSTIDAL_SLATEPORT_WITH_BF, 2, FALSE
+	multichoicedefault 17, 4, MULTI_SSTIDAL_SLATEPORT_WITH_BF, 3, FALSE
 	switch VAR_RESULT
 	case 0, SlateportCity_Harbor_EventScript_Lilycove
 	case 1, SlateportCity_Harbor_EventScript_BattleFrontier
-	case 2, SlateportCity_Harbor_EventScript_CancelDestinationSelect
+	case 2, SlateportCity_Harbor_EventScript_OneIsland
+	case 3, SlateportCity_Harbor_EventScript_CancelDestinationSelect
 	case MULTI_B_PRESSED, SlateportCity_Harbor_EventScript_CancelDestinationSelect
 	end
 
@@ -200,6 +202,16 @@ SlateportCity_Harbor_EventScript_BattleFrontier::
 	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_ChooseNewDestination
 	call SlateportCity_Harbor_EventScript_BoardFerry
 	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 19, 67
+	waitstate
+	release
+	end
+
+SlateportCity_Harbor_EventScript_OneIsland::
+	msgbox SlateportCity_Harbor_Text_OneIslandItIs, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, SlateportCity_Harbor_EventScript_ChooseNewDestination
+	setvar VAR_ONE_ISLAND_FERRY_PORT, ONE_ISLAND_FERRY_FROM_SLATEPORT
+	call SlateportCity_Harbor_EventScript_BoardFerry
+	warp MAP_ONE_ISLAND_HARBOR, 8, 5
 	waitstate
 	release
 	end
@@ -397,6 +409,9 @@ SlateportCity_Harbor_Text_LilycoveItIs:
 
 SlateportCity_Harbor_Text_BattleFrontierItIs:
 	.string "BATTLE FRONTIER it is, then!$"
+
+SlateportCity_Harbor_Text_OneIslandItIs:
+	.string "ONE ISLAND it is, then!$"
 
 SlateportCity_Harbor_Text_PleaseBoardFerry:
 	.string "Please board the ferry and wait for\n"

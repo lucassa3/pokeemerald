@@ -491,6 +491,13 @@ static void CreateLilycoveSSTidalMultichoice(void)
         }
     }
 
+    // The ferry only runs after the game is cleared, so ONE ISLAND is always available
+    if (gSpecialVar_0x8004 == 0)
+    {
+        sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_ONE_ISLAND;
+        selectionCount++;
+    }
+
     sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_EXIT;
     selectionCount++;
 
@@ -519,7 +526,8 @@ static void CreateLilycoveSSTidalMultichoice(void)
         }
 
         width = ConvertPixelWidthToTileWidth(pixelWidth);
-        windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+        // With ONE ISLAND added, a list can have 7 entries (3 of the 4 event tickets); keep it on screen
+        windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, count > 6 ? 0 : (6 - count) * 2, width, count * 2);
         SetStandardWindowBorderStyle(windowId, FALSE);
 
         for (selectionCount = 0, i = 0; i < SSTIDAL_SELECTION_COUNT; i++)

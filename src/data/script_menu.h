@@ -292,6 +292,7 @@ static const struct MenuAction MultichoiceList_SSTidalSlateportWithBF[] =
 {
     {gText_LilycoveCity},
     {gText_BattleFrontier},
+    {gText_OneIsland},
     {gText_Exit},
 };
 
@@ -311,6 +312,7 @@ static const struct MenuAction MultichoiceList_RightLeft[] =
 static const struct MenuAction MultichoiceList_SSTidalSlateportNoBF[] =
 {
     {gText_LilycoveCity},
+    {gText_OneIsland},
     {gText_Exit},
 };
 
@@ -960,6 +962,7 @@ static const u8 *const sLilycoveSSTidalDestinations[SSTIDAL_SELECTION_COUNT] =
     [SSTIDAL_SELECTION_NAVEL_ROCK]      = gText_NavelRock,
     [SSTIDAL_SELECTION_BIRTH_ISLAND]    = gText_BirthIsland,
     [SSTIDAL_SELECTION_FARAWAY_ISLAND]  = gText_FarawayIsland,
+    [SSTIDAL_SELECTION_ONE_ISLAND]      = gText_OneIsland,
     [SSTIDAL_SELECTION_EXIT]            = gText_Exit,
 };
 

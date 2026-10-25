@@ -4410,6 +4410,26 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_ONE_ISLAND",
+      "name": "OneIsland_Layout",
+      "width": 24,
+      "height": 20,
+      "primary_tileset": "gTileset_FrlgGeneral",
+      "secondary_tileset": "gTileset_FrlgSeviiIslands123",
+      "border_filepath": "data/layouts/OneIsland/border.bin",
+      "blockdata_filepath": "data/layouts/OneIsland/map.bin"
+    },
+    {
+      "id": "LAYOUT_FRLG_ISLAND_HARBOR",
+      "name": "FrlgIslandHarbor_Layout",
+      "width": 17,
+      "height": 13,
+      "primary_tileset": "gTileset_FrlgGeneral",
+      "secondary_tileset": "gTileset_FrlgIslandHarbor",
+      "border_filepath": "data/layouts/FrlgIslandHarbor/border.bin",
+      "blockdata_filepath": "data/layouts/FrlgIslandHarbor/map.bin"
     }
   ]
 }

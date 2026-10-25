@@ -5,6 +5,7 @@
 #include "fieldmap.h"
 #include "metatile_behavior.h"
 #include "task.h"
+#include "tilesets.h"
 #include "constants/songs.h"
 #include "constants/metatile_labels.h"
 
@@ -280,6 +281,66 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {},
 };
 
+// Doors of the FireRed/LeafGreen tilesets ported by porting/frlg_tilesets.py, as in pokefirered.
+// FRLG doors are a single metatile tall, so they use their own size and animation frames.
+#define DOOR_SIZE_FRLG 3
+
+// FRLG metatile IDs (unchanged by the port)
+#define METATILE_FrlgGeneral_Door                   0x03D
+#define METATILE_FrlgGeneral_SlidingSingleDoor      0x062
+#define METATILE_FrlgGeneral_SlidingDoubleDoor      0x15B
+#define METATILE_FrlgSeviiIslands123_Door           0x297
+#define METATILE_FrlgSeviiIslands123_GameCornerDoor 0x29B
+#define METATILE_FrlgSeviiIslands123_PokeCenterDoor 0x2EB
+
+static const u8 sDoorAnimTiles_FrlgGeneral[] = INCGFX_U8("graphics/door_anims/frlg_general.png", ".4bpp");
+static const u16 sDoorNullPaletteFrlg1[16] = {};
+static const u8 sDoorAnimTiles_FrlgSlidingSingle[] = INCGFX_U8("graphics/door_anims/frlg_sliding_single.png", ".4bpp");
+static const u16 sDoorNullPaletteFrlg2[16] = {};
+static const u8 sDoorAnimTiles_FrlgSlidingDouble[] = INCGFX_U8("graphics/door_anims/frlg_sliding_double.png", ".4bpp");
+static const u16 sDoorNullPaletteFrlg3[16] = {};
+static const u8 sDoorAnimTiles_FrlgSevii123[] = INCGFX_U8("graphics/door_anims/frlg_sevii_123.png", ".4bpp");
+static const u16 sDoorNullPaletteFrlg4[16] = {};
+static const u8 sDoorAnimTiles_FrlgJoyfulGameCorner[] = INCGFX_U8("graphics/door_anims/frlg_joyful_game_corner.png", ".4bpp");
+static const u16 sDoorNullPaletteFrlg5[16] = {};
+static const u8 sDoorAnimTiles_FrlgOneIslandPokeCenter[] = INCGFX_U8("graphics/door_anims/frlg_one_island_poke_center.png", ".4bpp");
+static const u16 sDoorNullPaletteFrlg6[16] = {};
+
+static const struct DoorAnimFrame sFrlgDoorOpenAnimFrames[] =
+{
+    {4, -1},
+    {4, 0},
+    {4, 0x80},
+    {4, 0x100},
+    {0, 0},
+};
+
+static const struct DoorAnimFrame sFrlgDoorCloseAnimFrames[] =
+{
+    {4, 0x100},
+    {4, 0x80},
+    {4, 0},
+    {4, -1},
+    {0, 0},
+};
+
+static const u8 sDoorAnimPalettes_FrlgGeneral[] = {2, 2, 2, 2, 2, 2, 2, 2};
+static const u8 sDoorAnimPalettes_FrlgSliding[] = {3, 3, 3, 3, 3, 3, 3, 3};
+static const u8 sDoorAnimPalettes_FrlgSevii123[] = {5, 5, 5, 5, 5, 5, 5, 5};
+static const u8 sDoorAnimPalettes_FrlgJoyfulGameCorner[] = {3, 3, 3, 3, 3, 3, 3, 3};
+static const u8 sDoorAnimPalettes_FrlgOneIslandPokeCenter[] = {3, 3, 3, 3, 3, 3, 3, 3};
+
+static const struct DoorGraphics sFrlgDoorAnimGraphicsTable[] =
+{
+    {METATILE_FrlgGeneral_Door,                   DOOR_SOUND_NORMAL,  DOOR_SIZE_FRLG, sDoorAnimTiles_FrlgGeneral, sDoorAnimPalettes_FrlgGeneral},
+    {METATILE_FrlgGeneral_SlidingSingleDoor,      DOOR_SOUND_SLIDING, DOOR_SIZE_FRLG, sDoorAnimTiles_FrlgSlidingSingle, sDoorAnimPalettes_FrlgSliding},
+    {METATILE_FrlgGeneral_SlidingDoubleDoor,      DOOR_SOUND_SLIDING, DOOR_SIZE_FRLG, sDoorAnimTiles_FrlgSlidingDouble, sDoorAnimPalettes_FrlgSliding},
+    {METATILE_FrlgSeviiIslands123_Door,           DOOR_SOUND_NORMAL,  DOOR_SIZE_FRLG, sDoorAnimTiles_FrlgSevii123, sDoorAnimPalettes_FrlgSevii123},
+    {METATILE_FrlgSeviiIslands123_GameCornerDoor, DOOR_SOUND_SLIDING, DOOR_SIZE_FRLG, sDoorAnimTiles_FrlgJoyfulGameCorner, sDoorAnimPalettes_FrlgJoyfulGameCorner},
+    {METATILE_FrlgSeviiIslands123_PokeCenterDoor, DOOR_SOUND_NORMAL,  DOOR_SIZE_FRLG, sDoorAnimTiles_FrlgOneIslandPokeCenter, sDoorAnimPalettes_FrlgOneIslandPokeCenter},
+    {},
+};
+
 // NOTE: The tiles of a door's animation must be copied to VRAM because they are not already part of any given tileset.
 //       This means that if there are any pre-existing tiles in this copied region that are visible when the door
 //       animation is played they will be overwritten.
@@ -336,6 +397,11 @@ static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 
         BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 12, &paletteNums[4]);
         DrawDoorMetatileAt(x + 1, y, &tiles[8]);
     }
+    else if (gfx->size == DOOR_SIZE_FRLG)
+    {
+        BuildDoorTiles(&tiles[0], DOOR_TILE_START_SIZE1, &paletteNums[0]);
+        DrawDoorMetatileAt(x, y, &tiles[0]);
+    }
     else
     {
         // Top metatile
@@ -350,7 +416,8 @@ static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 
 
 static void DrawClosedDoorTiles(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
-    CurrentMapDrawMetatileAt(x, y - 1);
+    if (gfx->size != DOOR_SIZE_FRLG)
+        CurrentMapDrawMetatileAt(x, y - 1);
     CurrentMapDrawMetatileAt(x, y);
 
     if (gfx->size == 2)
@@ -425,6 +492,10 @@ static const struct DoorAnimFrame *GetLastDoorFrame(const struct DoorAnimFrame *
 
 static const struct DoorGraphics *GetDoorGraphics(const struct DoorGraphics *gfx, u16 metatileNum)
 {
+    // Maps built from the FRLG tilesets reuse metatile IDs that mean different doors in Emerald
+    if (gMapHeader.mapLayout->primaryTileset == &gTileset_FrlgGeneral)
+        gfx = sFrlgDoorAnimGraphicsTable;
+
     while (gfx->tiles != NULL)
     {
         if (gfx->metatileNum == metatileNum)
@@ -466,7 +537,9 @@ static void DrawClosedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 static void DrawOpenedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx != NULL)
+    if (gfx != NULL && gfx->size == DOOR_SIZE_FRLG)
+        DrawDoor(gfx, GetLastDoorFrame(sFrlgDoorOpenAnimFrames, sFrlgDoorOpenAnimFrames), x, y);
+    else if (gfx != NULL)
         DrawDoor(gfx, GetLastDoorFrame(sDoorOpenAnimFrames, sDoorOpenAnimFrames), x, y);
 }
 
@@ -481,6 +554,8 @@ static s8 StartDoorOpenAnimation(const struct DoorGraphics *gfx, u32 x, u32 y)
     {
         if (gfx->size == 2)
             return StartDoorAnimationTask(gfx, sBigDoorOpenAnimFrames, x, y);
+        else if (gfx->size == DOOR_SIZE_FRLG)
+            return StartDoorAnimationTask(gfx, sFrlgDoorOpenAnimFrames, x, y);
         else
             return StartDoorAnimationTask(gfx, sDoorOpenAnimFrames, x, y);
     }
@@ -491,6 +566,8 @@ static s8 StartDoorCloseAnimation(const struct DoorGraphics *gfx, u32 x, u32 y)
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
     if (gfx == NULL)
         return -1;
+    else if (gfx->size == DOOR_SIZE_FRLG)
+        return StartDoorAnimationTask(gfx, sFrlgDoorCloseAnimFrames, x, y);
     else
         return StartDoorAnimationTask(gfx, sDoorCloseAnimFrames, x, y);
 }
