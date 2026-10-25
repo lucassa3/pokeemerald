@@ -7,6 +7,11 @@
 static void UpdateGymLeaderRematchFromArray(const u16 *data, size_t size, u32 maxRematch);
 static s32 GetRematchIndex(u32 trainerIdx);
 
+// Each leader's second battle (index 1 in gRematchTable) is offered deterministically, one leader at a time in
+// gym order, from the Hall of Fame on (UpdateGymLeaderRematchChain). Later battles stay random (UpdateGymLeaderRematch).
+#define ROUND_2_REMATCH 1
+
+// Also the order of the round 2 chain
 static const u16 GymLeaderRematches_AfterNewMauville[] = {
     REMATCH_ROXANNE,
     REMATCH_BRAWLY,
@@ -29,9 +34,51 @@ static const u16 GymLeaderRematches_BeforeNewMauville[] = {
     REMATCH_JUAN
 };
 
+static bool32 HasBeatenRound2Rematch(u32 leader)
+{
+    return HasTrainerBeenFought(gRematchTable[leader].trainerIds[ROUND_2_REMATCH]);
+}
+
+// TRUE once every Gym Leader's second battle has been won
+bool32 IsGymLeaderRematchChainComplete(void)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(GymLeaderRematches_AfterNewMauville); i++)
+    {
+        if (!HasBeatenRound2Rematch(GymLeaderRematches_AfterNewMauville[i]))
+            return FALSE;
+    }
+    return TRUE;
+}
+
+// Offers the next Gym Leader's second battle, in gym order. Wattson only rematches after the New Mauville
+// quest, so he's skipped until then and offered as soon as it's done
+void UpdateGymLeaderRematchChain(void)
+{
+    u32 i;
+
+    if (!FlagGet(FLAG_SYS_GAME_CLEAR))
+        return;
+
+    for (i = 0; i < ARRAY_COUNT(GymLeaderRematches_AfterNewMauville); i++)
+    {
+        u16 leader = GymLeaderRematches_AfterNewMauville[i];
+
+        if (HasBeatenRound2Rematch(leader))
+            continue;
+        if (leader == REMATCH_WATTSON && !FlagGet(FLAG_WATTSON_REMATCH_AVAILABLE))
+            continue;
+        if (!gSaveBlock1Ptr->trainerRematches[leader])
+            gSaveBlock1Ptr->trainerRematches[leader] = ROUND_2_REMATCH;
+        return;
+    }
+}
+
+// Randomly offers battles 3-5 once the round 2 chain is complete
 void UpdateGymLeaderRematch(void)
 {
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && (Random() % 100) <= 30)
+    if (FlagGet(FLAG_SYS_GAME_CLEAR) && IsGymLeaderRematchChainComplete() && (Random() % 100) < GYM_REMATCH_CHANCE_PERCENT)
     {
         if (FlagGet(FLAG_WATTSON_REMATCH_AVAILABLE))
             UpdateGymLeaderRematchFromArray(GymLeaderRematches_AfterNewMauville, ARRAY_COUNT(GymLeaderRematches_AfterNewMauville), 5);

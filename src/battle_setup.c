@@ -953,15 +953,19 @@ static void CB2_EndFirstBattle(void)
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
+// The round 2 chain is also updated here so saves that already cleared the game, and Wattson once
+// the New Mauville quest is done, get their next rematch without waiting for a specific event
 static void TryUpdateGymLeaderRematchFromWild(void)
 {
-    if (GetGameStat(GAME_STAT_WILD_BATTLES) % 60 == 0)
+    UpdateGymLeaderRematchChain();
+    if (GetGameStat(GAME_STAT_WILD_BATTLES) % GYM_REMATCH_WILD_BATTLE_INTERVAL == 0)
         UpdateGymLeaderRematch();
 }
 
 static void TryUpdateGymLeaderRematchFromTrainer(void)
 {
-    if (GetGameStat(GAME_STAT_TRAINER_BATTLES) % 20 == 0)
+    UpdateGymLeaderRematchChain();
+    if (GetGameStat(GAME_STAT_TRAINER_BATTLES) % GYM_REMATCH_TRAINER_BATTLE_INTERVAL == 0)
         UpdateGymLeaderRematch();
 }
 
@@ -1364,6 +1368,8 @@ static void CB2_EndRematchBattle(void)
         RegisterTrainerInMatchCall();
         SetBattledTrainersFlags();
         HandleRematchVarsOnBattleEnd();
+        // Beating a Gym Leader's second battle readies the next one in the chain
+        UpdateGymLeaderRematchChain();
     }
 }
 
