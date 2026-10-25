@@ -6,6 +6,7 @@ EverGrandeCity_ChampionsRoom_MapScripts::
 
 EverGrandeCity_ChampionsRoom_OnTransition:
 	call Common_EventScript_SetupRivalGfxId
+	call MasterRank_EventScript_SetupChampionGfxId
 	end
 
 EverGrandeCity_ChampionsRoom_OnWarp:
@@ -26,6 +27,7 @@ EverGrandeCity_ChampionsRoom_EventScript_EnterRoom::
 	delay 40
 	applywaitmovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace
 	setvar VAR_TEMP_1, 1
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_ChampionsRoom_EventScript_Steven
 	goto EverGrandeCity_ChampionsRoom_EventScript_Wallace
 	releaseall
 	end
@@ -58,6 +60,43 @@ EverGrandeCity_ChampionsRoom_EventScript_Defeated::
 	checkplayergender
 	goto_if_eq VAR_RESULT, MALE, EverGrandeCity_ChampionsRoom_EventScript_MayAdvice
 	goto_if_eq VAR_RESULT, FEMALE, EverGrandeCity_ChampionsRoom_EventScript_BrendanAdvice
+	end
+
+@ Master Rank (data/scripts/master_rank.inc): Steven has taken Wallace's place. The champion object uses
+@ VAR_OBJ_GFX_ID_1, so the same LOCALID_CHAMPIONS_ROOM_WALLACE object and movements serve both.
+EverGrandeCity_ChampionsRoom_EventScript_Steven::
+	playbgm MUS_ENCOUNTER_CHAMPION, FALSE
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenIntroSpeech, MSGBOX_DEFAULT
+	call_if_set FLAG_DEFEATED_METEOR_FALLS_STEVEN, EverGrandeCity_ChampionsRoom_EventScript_StevenMeteorFallsWarmUp
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenShowMe, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_STEVEN_CHAMPION, EverGrandeCity_ChampionsRoom_Text_StevenDefeat
+	goto EverGrandeCity_ChampionsRoom_EventScript_StevenDefeated
+	end
+
+EverGrandeCity_ChampionsRoom_EventScript_StevenMeteorFallsWarmUp::
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenMeteorFallsWarmUp, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_ChampionsRoom_EventScript_StevenDefeated::
+	playse SE_DOOR
+	setmetatile 6, 1, METATILE_EliteFour_OpenDoorChampion_Frame, FALSE
+	setmetatile 6, 2, METATILE_EliteFour_OpenDoorChampion_Opening, FALSE
+	special DrawWholeMapView
+	setvar VAR_MASTER_RANK_STATE, MASTER_RANK_CLEARED
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenPostBattleSpeech, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_CHAMPIONS_ROOM_WALLACE, EverGrandeCity_ChampionsRoom_Movement_WallaceExitStart
+	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExitStart
+	waitmovement 0
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenThisWay, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_CHAMPIONS_ROOM_WALLACE, EverGrandeCity_ChampionsRoom_Movement_WallaceExit
+	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExit
+	waitmovement 0
+	setflag FLAG_HIDE_PETALBURG_GYM_GREETER
+	warp MAP_EVER_GRANDE_CITY_HALL_OF_FAME, 7, 16
+	waitstate
+	releaseall
 	end
 
 EverGrandeCity_ChampionsRoom_EventScript_PlayMayMusic::
@@ -324,3 +363,42 @@ EverGrandeCity_ChampionsRoom_Text_BrendanCongratulations:
 	.string "{PLAYER}, way to go!\n"
 	.string "Congratulations!$"
 
+EverGrandeCity_ChampionsRoom_Text_StevenIntroSpeech:
+	.string "STEVEN: Welcome, {PLAYER}.\p"
+	.string "…Surprised? I suppose you were\n"
+	.string "expecting WALLACE.\p"
+	.string "When he told me he had to return\n"
+	.string "to SOOTOPOLIS, someone had to keep\l"
+	.string "this seat warm.\p"
+	.string "I was the CHAMPION once, you know.\n"
+	.string "I gave it up to chase rare stones.\p"
+	.string "But after watching you calm GROUDON\n"
+	.string "and KYOGRE, and stand before\l"
+	.string "RAYQUAZA…\p"
+	.string "I realized there was one battle\n"
+	.string "I still wanted.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenMeteorFallsWarmUp:
+	.string "Our battle at METEOR FALLS?\n"
+	.string "That was just a warm-up.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenShowMe:
+	.string "Not in some quiet cave. Here, as the\n"
+	.string "CHAMPION, with everything I have.\p"
+	.string "Come, {PLAYER}! Show me!$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenDefeat:
+	.string "I knew it… You are the strongest\n"
+	.string "TRAINER I have ever faced.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenPostBattleSpeech:
+	.string "STEVEN: Congratulations, {PLAYER}.\p"
+	.string "You are the CHAMPION of\n"
+	.string "MASTER RANK.\p"
+	.string "WALLACE will want to hear of this.\n"
+	.string "I'm sure you'll find him at home.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenThisWay:
+	.string "STEVEN: Come. Let us record your\n"
+	.string "name, and your partners', in the\l"
+	.string "HALL OF FAME.$"

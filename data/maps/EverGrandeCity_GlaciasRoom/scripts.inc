@@ -39,6 +39,7 @@ EverGrandeCity_GlaciasRoom_EventScript_CloseDoor::
 EverGrandeCity_GlaciasRoom_EventScript_Glacia::
 	lock
 	faceplayer
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_GlaciasRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_GlaciasRoom_Text_IntroSpeech, MSGBOX_DEFAULT
@@ -55,6 +56,31 @@ EverGrandeCity_GlaciasRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_GLACIA
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+
+@ Master Rank (data/scripts/master_rank.inc)
+EverGrandeCity_GlaciasRoom_EventScript_MasterRank::
+	goto_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_MasterRankPostBattleSpeech
+	specialvar VAR_RESULT, GetMonsStateToDoubles
+	goto_if_ne VAR_RESULT, PLAYER_HAS_TWO_USABLE_MONS, EverGrandeCity_GlaciasRoom_EventScript_MasterRankNeedTwoMons
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_GlaciasRoom_Text_MasterRankIntroSpeech, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_GLACIA_MASTER, EverGrandeCity_GlaciasRoom_Text_MasterRankDefeat
+	setflag FLAG_DEFEATED_ELITE_4_GLACIA
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	msgbox EverGrandeCity_GlaciasRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_GlaciasRoom_EventScript_MasterRankPostBattleSpeech::
+	msgbox EverGrandeCity_GlaciasRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_GlaciasRoom_EventScript_MasterRankNeedTwoMons::
+	msgbox EverGrandeCity_GlaciasRoom_Text_MasterRankNeedTwoMons, MSGBOX_DEFAULT
 	release
 	end
 
@@ -81,3 +107,24 @@ EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech:
 	.string "And there, confirm the truly fearsome\n"
 	.string "side of the POKéMON LEAGUE.$"
 
+EverGrandeCity_GlaciasRoom_Text_MasterRankIntroSpeech:
+	.string "Welcome back, challenger.\p"
+	.string "One opponent at a time was never\n"
+	.string "enough to test you, was it?\p"
+	.string "So in MASTER RANK, I shall face you\n"
+	.string "with two POKéMON at once.\p"
+	.string "Let us see if your passion can melt\n"
+	.string "a double blizzard!$"
+
+EverGrandeCity_GlaciasRoom_Text_MasterRankDefeat:
+	.string "Your passion… It truly burns hot.$"
+
+EverGrandeCity_GlaciasRoom_Text_MasterRankPostBattleSpeech:
+	.string "DRAKE is waiting. He has been\n"
+	.string "unbearably eager.$"
+
+EverGrandeCity_GlaciasRoom_Text_MasterRankNeedTwoMons:
+	.string "In MASTER RANK, I battle with\n"
+	.string "two POKéMON at once.\p"
+	.string "You will need two POKéMON who can\n"
+	.string "still fight.$"

@@ -17,6 +17,7 @@
 #include "field_specials.h"
 #include "field_weather.h"
 #include "graphics.h"
+#include "gym_leader_rematch.h"
 #include "international_string_util.h"
 #include "item_icon.h"
 #include "link.h"
@@ -448,6 +449,25 @@ bool32 ShouldDoRoxanneCall(void)
     }
 
     return TRUE;
+}
+
+// Wally calls about Master Rank as soon as the player is outdoors with all eight round 2 Gym Leader
+// rematches won (normally right after leaving Juan's gym)
+bool32 ShouldDoWallyMasterRankCall(void)
+{
+    if (VarGet(VAR_MASTER_RANK_STATE) != MASTER_RANK_LOCKED || !FlagGet(FLAG_HAS_MATCH_CALL))
+        return FALSE;
+
+    switch (gMapHeader.mapType)
+    {
+    case MAP_TYPE_TOWN:
+    case MAP_TYPE_CITY:
+    case MAP_TYPE_ROUTE:
+    case MAP_TYPE_OCEAN_ROUTE:
+        return IsGymLeaderRematchChainComplete();
+    default:
+        return FALSE;
+    }
 }
 
 bool32 ShouldDoRivalRayquazaCall(void)

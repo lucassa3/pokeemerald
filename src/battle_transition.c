@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_setup.h"
 #include "battle_transition.h"
 #include "battle_transition_frontier.h"
 #include "bg.h"
@@ -21,6 +22,7 @@
 #include "trig.h"
 #include "util.h"
 #include "constants/field_effects.h"
+#include "constants/opponents.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "constants/rgb.h"
@@ -2581,7 +2583,13 @@ static void Mugshots_CreateTrainerPics(struct Task *task)
     struct Sprite *opponentSprite, *playerSprite;
 
     s16 mugshotId = task->tMugshotId;
-    task->tOpponentSpriteId = CreateTrainerSprite(sMugshotsTrainerPicIDsTable[mugshotId],
+    u16 trainerPic = sMugshotsTrainerPicIDsTable[mugshotId];
+
+    // Master Rank: Steven sits in the Champion's room in Wallace's place
+    if (mugshotId == MUGSHOT_CHAMPION && gTrainerBattleOpponent_A == TRAINER_STEVEN_CHAMPION)
+        trainerPic = TRAINER_PIC_STEVEN;
+
+    task->tOpponentSpriteId = CreateTrainerSprite(trainerPic,
                                                   sMugshotsOpponentCoords[mugshotId][0] - 32,
                                                   sMugshotsOpponentCoords[mugshotId][1] + 42,
                                                   0, gDecompressionBuffer);

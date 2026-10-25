@@ -84,7 +84,15 @@ SootopolisCity_Gym_1F_EventScript_Juan::
 	goto_if_eq VAR_RESULT, TRUE, SootopolisCity_Gym_1F_EventScript_JuanRematch
 	goto_if_unset FLAG_RECEIVED_TM_WATER_PULSE, SootopolisCity_Gym_1F_EventScript_GiveWaterPulse2
 	goto_if_unset FLAG_BADGE06_GET, SootopolisCity_Gym_1F_EventScript_GoGetFortreeBadge
+	specialvar VAR_RESULT, IsGymLeaderRematchChainComplete
+	goto_if_eq VAR_RESULT, TRUE, SootopolisCity_Gym_1F_EventScript_JuanWallaceLeftLeague
 	msgbox SootopolisCity_Gym_1F_Text_JuanPostBattle, MSGBOX_DEFAULT
+	release
+	end
+
+@ Master Rank: once every Gym Leader has been beaten again, Juan explains why Wallace left the League
+SootopolisCity_Gym_1F_EventScript_JuanWallaceLeftLeague::
+	msgbox SootopolisCity_Gym_1F_Text_JuanWallaceLeftLeague, MSGBOX_DEFAULT
 	release
 	end
 
@@ -136,6 +144,8 @@ SootopolisCity_Gym_1F_EventScript_GoGetFortreeBadge::
 
 SootopolisCity_Gym_1F_EventScript_JuanRematch::
 	trainerbattle_rematch_double TRAINER_JUAN_1, SootopolisCity_Gym_1F_Text_JuanPreRematch, SootopolisCity_Gym_1F_Text_JuanRematchDefeat, SootopolisCity_Gym_1F_Text_JuanRematchNeedTwoMons
+	specialvar VAR_RESULT, IsGymLeaderRematchChainComplete
+	goto_if_eq VAR_RESULT, TRUE, SootopolisCity_Gym_1F_EventScript_JuanWallaceLeftLeague
 	msgbox SootopolisCity_Gym_1F_Text_JuanPostRematch, MSGBOX_AUTOCLOSE
 	end
 
@@ -315,4 +325,20 @@ SootopolisCity_Gym_1F_Text_JuanRematchNeedTwoMons:
 	.string "You have with you but one POKéMON.\p"
 	.string "I wish that you would return with\n"
 	.string "two, perhaps more, POKéMON, please.$"
+
+SootopolisCity_Gym_1F_Text_JuanWallaceLeftLeague:
+	.string "JUAN: Our young typhoon has danced\n"
+	.string "with every GYM LEADER once more.\p"
+	.string "Then you have earned the right\n"
+	.string "to hear this.\p"
+	.string "WALLACE came to see me. After the\n"
+	.string "ancient POKéMON awoke beneath our\l"
+	.string "city, he felt his place was here.\p"
+	.string "Guarding the CAVE OF ORIGIN, as his\n"
+	.string "family always has… And polishing\l"
+	.string "the art I once taught him.\p"
+	.string "He has left the CHAMPION's seat.\p"
+	.string "Do not worry. Someone worthy has\n"
+	.string "agreed to fill it.\p"
+	.string "Ahahaha! I shall say no more!$"
 

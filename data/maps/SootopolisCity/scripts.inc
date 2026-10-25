@@ -47,6 +47,18 @@ SootopolisCity_OnTransition:
 	call_if_eq VAR_SOOTOPOLIS_CITY_STATE, 4, SootopolisCity_EventScript_SetExitCaveOfOriginObjPos
 	call_if_eq VAR_SOOTOPOLIS_CITY_STATE, 5, SootopolisCity_EventScript_SetOutsideGymObjPos
 	call_if_eq VAR_SOOTOPOLIS_CITY_STATE, 6, SootopolisCity_EventScript_SetExpertBlockCaveEntrance
+	call SootopolisCity_EventScript_SetWallaceMasterRank
+	end
+
+@ Master Rank epilogue: after Steven is beaten as Champion, Wallace is back guarding the Cave of Origin
+SootopolisCity_EventScript_SetWallaceMasterRank::
+	setflag FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE_MASTER_RANK
+	goto_if_ne VAR_MASTER_RANK_STATE, MASTER_RANK_CLEARED, Common_EventScript_NopReturn
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE_MASTER_RANK
+	return
+
+SootopolisCity_EventScript_WallaceMasterRank::
+	msgbox SootopolisCity_Text_WallaceMasterRank, MSGBOX_NPC
 	end
 
 SootopolisCity_EventScript_HideMapNamePopup::
@@ -1671,3 +1683,11 @@ SootopolisCity_Text_DazzledByMentor:
 	.string "WALLACE: I'm sure that you will be\n"
 	.string "dazzled by my mentor's breathtakingly\l"
 	.string "elegant battle style.$"
+
+SootopolisCity_Text_WallaceMasterRank:
+	.string "WALLACE: {PLAYER}! So you made it\n"
+	.string "through MASTER RANK.\p"
+	.string "STEVEN takes his duties far too\n"
+	.string "seriously. Did he give you a\l"
+	.string "difficult time?\p"
+	.string "…Good. I would expect nothing less.$"

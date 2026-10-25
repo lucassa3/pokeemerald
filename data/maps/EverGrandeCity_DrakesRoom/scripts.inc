@@ -40,6 +40,7 @@ EverGrandeCity_DrakesRoom_EventScript_CloseDoor::
 EverGrandeCity_DrakesRoom_EventScript_Drake::
 	lock
 	faceplayer
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_DrakesRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_DRAKE, EverGrandeCity_DrakesRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_DrakesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
@@ -58,6 +59,26 @@ EverGrandeCity_DrakesRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_DRAKE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_DrakesRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+
+@ Master Rank (data/scripts/master_rank.inc)
+EverGrandeCity_DrakesRoom_EventScript_MasterRank::
+	goto_if_set FLAG_DEFEATED_ELITE_4_DRAKE, EverGrandeCity_DrakesRoom_EventScript_MasterRankPostBattleSpeech
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_DrakesRoom_Text_MasterRankIntroSpeech, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_DRAKE_MASTER, EverGrandeCity_DrakesRoom_Text_MasterRankDefeat
+	setvar VAR_0x8004, FANCOUNTER_DEFEATED_DRAKE
+	special Script_TryGainNewFanFromCounter
+	setflag FLAG_DEFEATED_ELITE_4_DRAKE
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	msgbox EverGrandeCity_DrakesRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_DrakesRoom_EventScript_MasterRankPostBattleSpeech::
+	msgbox EverGrandeCity_DrakesRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
 	release
 	end
 
@@ -90,3 +111,18 @@ EverGrandeCity_DrakesRoom_Text_PostBattleSpeech:
 	.string "Go! Go onwards!\n"
 	.string "The CHAMPION is waiting!$"
 
+EverGrandeCity_DrakesRoom_Text_MasterRankIntroSpeech:
+	.string "Hah! So you made it through\n"
+	.string "the others again.\p"
+	.string "A captain never sails the same sea\n"
+	.string "the same way twice.\p"
+	.string "My dragons have weathered storms\n"
+	.string "you can't imagine. Brace yourself!$"
+
+EverGrandeCity_DrakesRoom_Text_MasterRankDefeat:
+	.string "Superb! You have the heart of a\n"
+	.string "true sailor!$"
+
+EverGrandeCity_DrakesRoom_Text_MasterRankPostBattleSpeech:
+	.string "Go on. The CHAMPION is waiting.\p"
+	.string "…And I think you'll be surprised.$"
