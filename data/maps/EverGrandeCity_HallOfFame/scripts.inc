@@ -1,4 +1,5 @@
 EverGrandeCity_HallOfFame_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, MasterRank_EventScript_SetupChampionGfxIdEnd
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_HallOfFame_OnFrame
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_HallOfFame_OnWarp
 	.byte 0

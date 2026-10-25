@@ -39,6 +39,7 @@ EverGrandeCity_PhoebesRoom_EventScript_CloseDoor::
 EverGrandeCity_PhoebesRoom_EventScript_Phoebe::
 	lock
 	faceplayer
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_PhoebesRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_PhoebesRoom_Text_IntroSpeech, MSGBOX_DEFAULT
@@ -55,6 +56,24 @@ EverGrandeCity_PhoebesRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_PHOEBE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+
+@ Master Rank (data/scripts/master_rank.inc)
+EverGrandeCity_PhoebesRoom_EventScript_MasterRank::
+	goto_if_set FLAG_DEFEATED_ELITE_4_PHOEBE, EverGrandeCity_PhoebesRoom_EventScript_MasterRankPostBattleSpeech
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_PhoebesRoom_Text_MasterRankIntroSpeech, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_PHOEBE_MASTER, EverGrandeCity_PhoebesRoom_Text_MasterRankDefeat
+	setflag FLAG_DEFEATED_ELITE_4_PHOEBE
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	msgbox EverGrandeCity_PhoebesRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_PhoebesRoom_EventScript_MasterRankPostBattleSpeech::
+	msgbox EverGrandeCity_PhoebesRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
 	release
 	end
 
@@ -82,3 +101,18 @@ EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech:
 	.string "will carry you.\p"
 	.string "Go ahead, move on to the next room.$"
 
+EverGrandeCity_PhoebesRoom_Text_MasterRankIntroSpeech:
+	.string "Ahahaha! You came back!\p"
+	.string "I spent every night on MT. PYRE,\n"
+	.string "listening to the spirits whisper\l"
+	.string "about this battle.\p"
+	.string "They say you're in for a scare.\n"
+	.string "Let's find out!$"
+
+EverGrandeCity_PhoebesRoom_Text_MasterRankDefeat:
+	.string "Oh, wow… Even the spirits are\n"
+	.string "impressed!$"
+
+EverGrandeCity_PhoebesRoom_Text_MasterRankPostBattleSpeech:
+	.string "GLACIA's next. Bring two of\n"
+	.string "your best, she won't fight alone!$"

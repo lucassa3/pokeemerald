@@ -45,6 +45,7 @@ EverGrandeCity_SidneysRoom_EventScript_WalkInCloseDoor::
 EverGrandeCity_SidneysRoom_EventScript_Sidney::
 	lock
 	faceplayer
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_SidneysRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_SIDNEY, EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
 	msgbox EverGrandeCity_SidneysRoom_Text_IntroSpeech, MSGBOX_DEFAULT
@@ -61,6 +62,24 @@ EverGrandeCity_SidneysRoom_EventScript_Defeated::
 	setflag FLAG_DEFEATED_ELITE_4_SIDNEY
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 	msgbox EverGrandeCity_SidneysRoom_Text_PostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+
+@ Master Rank (data/scripts/master_rank.inc)
+EverGrandeCity_SidneysRoom_EventScript_MasterRank::
+	goto_if_set FLAG_DEFEATED_ELITE_4_SIDNEY, EverGrandeCity_SidneysRoom_EventScript_MasterRankPostBattleSpeech
+	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
+	msgbox EverGrandeCity_SidneysRoom_Text_MasterRankIntroSpeech, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_SIDNEY_MASTER, EverGrandeCity_SidneysRoom_Text_MasterRankDefeat
+	setflag FLAG_DEFEATED_ELITE_4_SIDNEY
+	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
+	msgbox EverGrandeCity_SidneysRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
+	release
+	end
+
+EverGrandeCity_SidneysRoom_EventScript_MasterRankPostBattleSpeech::
+	msgbox EverGrandeCity_SidneysRoom_Text_MasterRankPostBattleSpeech, MSGBOX_DEFAULT
 	release
 	end
 
@@ -85,3 +104,16 @@ EverGrandeCity_SidneysRoom_Text_PostBattleSpeech:
 	.string "Now, go on to the next room and enjoy\l"
 	.string "your next battle!$"
 
+EverGrandeCity_SidneysRoom_Text_MasterRankIntroSpeech:
+	.string "Well, well! Look who's back!\p"
+	.string "Since you beat us, we've trained\n"
+	.string "like there's no tomorrow.\p"
+	.string "This is MASTER RANK, kid.\n"
+	.string "No more holding back. Ready?$"
+
+EverGrandeCity_SidneysRoom_Text_MasterRankDefeat:
+	.string "Ha! You're still the real deal!$"
+
+EverGrandeCity_SidneysRoom_Text_MasterRankPostBattleSpeech:
+	.string "The others won't go easy on\n"
+	.string "you either. Go on, get moving!$"

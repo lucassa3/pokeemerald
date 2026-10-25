@@ -819,17 +819,22 @@ static u8 GetTrainerBattleTransition(void)
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         return B_TRANSITION_CHAMPION;
 
+    // Chosen by trainer pic rather than trainer ID, so the Master Rank Elite Four get their own mugshots too
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
     {
-        if (gTrainerBattleOpponent_A == TRAINER_SIDNEY)
+        switch (gTrainers[gTrainerBattleOpponent_A].trainerPic)
+        {
+        case TRAINER_PIC_ELITE_FOUR_SIDNEY:
             return B_TRANSITION_SIDNEY;
-        if (gTrainerBattleOpponent_A == TRAINER_PHOEBE)
+        case TRAINER_PIC_ELITE_FOUR_PHOEBE:
             return B_TRANSITION_PHOEBE;
-        if (gTrainerBattleOpponent_A == TRAINER_GLACIA)
+        case TRAINER_PIC_ELITE_FOUR_GLACIA:
             return B_TRANSITION_GLACIA;
-        if (gTrainerBattleOpponent_A == TRAINER_DRAKE)
+        case TRAINER_PIC_ELITE_FOUR_DRAKE:
             return B_TRANSITION_DRAKE;
-        return B_TRANSITION_CHAMPION;
+        default:
+            return B_TRANSITION_CHAMPION;
+        }
     }
 
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
