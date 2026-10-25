@@ -376,21 +376,11 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
-static void CreateWildMon(u16 species, u8 level)
+// Makes the same Random() calls as vanilla CreateMonWithNature / CreateMonWithGenderNatureLetter
+static u32 PickWildMonPersonality(u16 species, bool32 checkCuteCharm)
 {
-    bool32 checkCuteCharm;
-
-    ZeroEnemyPartyMons();
-    checkCuteCharm = TRUE;
-
-    switch (gSpeciesInfo[species].genderRatio)
-    {
-    case MON_MALE:
-    case MON_FEMALE:
-    case MON_GENDERLESS:
-        checkCuteCharm = FALSE;
-        break;
-    }
+    u32 personality;
+    u8 nature;
 
     if (checkCuteCharm
         && !GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG)
@@ -407,11 +397,98 @@ static void CreateWildMon(u16 species, u8 level)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
-        return;
+        nature = PickWildMonNature();
+        do
+        {
+            personality = Random32();
+        }
+        while (nature != GetNatureFromPersonality(personality)
+            || gender != GetGenderFromSpeciesAndPersonality(species, personality));
+        return personality;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
+    nature = PickWildMonNature();
+    do
+    {
+        personality = Random32();
+    }
+    while (nature != GetNatureFromPersonality(personality));
+    return personality;
+}
+
+#define SHINY_SEARCH_WINDOW 32       // How many RNG states before a shiny pair to try starting the vanilla rolls from
+#define SHINY_SEARCH_MAX_STATES 1000000 // Give up (and use a normal roll) after scanning this many RNG states
+#define ISO_RANDOMIZE1_PREV(val) (0xEEB9EB65 * ((val) - 24691)) // Inverse of ISO_RANDOMIZE1
+
+// Looks for an RNG state from which the vanilla rolls in PickWildMonPersonality give a shiny,
+// so the result is a sequence the unmodified game could also produce. Rerunning those rolls from
+// random states is far too slow, so this scans ahead for two consecutive outputs that would form
+// a shiny personality, then tries starting the vanilla rolls from the states just before them.
+// On success, gRngValue is left right after those rolls, where vanilla would leave it.
+static bool32 TryPickShinyWildMonPersonality(u16 species, bool32 checkCuteCharm, u32 *personality)
+{
+    u32 otId = T1_READ_32(gSaveBlock2Ptr->playerTrainerId);
+    u16 otIdXor = HIHALF(otId) ^ LOHALF(otId);
+    u32 startRng = gRngValue;
+    u32 scanRng = ISO_RANDOMIZE1(gRngValue);
+    u16 prevOutput = scanRng >> 16;
+    u16 output;
+    u32 trialRng;
+    u32 i, j;
+
+    for (i = 0; i < SHINY_SEARCH_MAX_STATES; i++)
+    {
+        scanRng = ISO_RANDOMIZE1(scanRng);
+        output = scanRng >> 16;
+
+        // The shiny value XORs the two halves together, so their order doesn't matter
+        if ((u16)(prevOutput ^ output ^ otIdXor) < SHINY_ODDS)
+        {
+            // Step back to the state before the first output of the pair
+            trialRng = ISO_RANDOMIZE1_PREV(ISO_RANDOMIZE1_PREV(scanRng));
+            for (j = 0; j < SHINY_SEARCH_WINDOW; j++)
+            {
+                trialRng = ISO_RANDOMIZE1_PREV(trialRng);
+                gRngValue = trialRng;
+                *personality = PickWildMonPersonality(species, checkCuteCharm);
+                if (GET_SHINY_VALUE(otId, *personality) < SHINY_ODDS)
+                    return TRUE;
+            }
+        }
+        prevOutput = output;
+    }
+
+    gRngValue = startRng;
+    return FALSE;
+}
+
+static void CreateWildMon(u16 species, u8 level)
+{
+    bool32 checkCuteCharm;
+    bool32 wantShiny;
+    u32 personality;
+
+    ZeroEnemyPartyMons();
+    checkCuteCharm = TRUE;
+
+    switch (gSpeciesInfo[species].genderRatio)
+    {
+    case MON_MALE:
+    case MON_FEMALE:
+    case MON_GENDERLESS:
+        checkCuteCharm = FALSE;
+        break;
+    }
+
+    // Roll the shiny chance on the secondary RNG, mixed with the main RNG's state without advancing it,
+    // so the main RNG calls below stay exactly as in vanilla
+    gRng2Value ^= gRngValue;
+    wantShiny = (Random2() % WILD_SHINY_ODDS == 0);
+
+    if (!wantShiny || !TryPickShinyWildMonPersonality(species, checkCuteCharm, &personality))
+        personality = PickWildMonPersonality(species, checkCuteCharm);
+
+    CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
 }
 #ifdef BUGFIX
 #define TRY_GET_ABILITY_INFLUENCED_WILD_MON_INDEX(wildPokemon, type, ability, ptr, count) TryGetAbilityInfluencedWildMonIndex(wildPokemon, type, ability, ptr, count)
