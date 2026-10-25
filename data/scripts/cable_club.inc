@@ -3,6 +3,8 @@ CableClub_OnTransition:
 	end
 
 CableClub_EventScript_HideOrShowMysteryGiftMan::
+	call EventTicket_EventScript_GetNextTicket
+	goto_if_ne VAR_0x8004, ITEM_NONE, CableClub_EventScript_ShowMysteryGiftMan
 	specialvar VAR_RESULT, ShouldDistributeEonTicket
 	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_ShowMysteryGiftMan
 	specialvar VAR_RESULT, ValidateSavedWonderCard
@@ -19,6 +21,7 @@ CableClub_EventScript_HideMysteryGiftMan::
 	return
 
 CableClub_EventScript_MysteryGiftMan::
+	call EventTicket_EventScript_TryDeliverTicket
 	specialvar VAR_RESULT, ShouldDistributeEonTicket
 	goto_if_eq VAR_RESULT, TRUE, CableClub_EventScript_DistributeEonTicket
 	goto CableClub_EventScript_TryWonderCardScript
