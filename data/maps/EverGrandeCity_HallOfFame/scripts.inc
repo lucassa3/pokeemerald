@@ -24,7 +24,7 @@ EverGrandeCity_HallOfFame_EventScript_EnterHallOfFame::
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, Common_Movement_WalkInPlaceFasterRight
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
-	msgbox EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions, MSGBOX_DEFAULT
+	call EverGrandeCity_HallOfFame_EventScript_HereWeHonorLeagueChampions
 	closemessage
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2
 	applymovement LOCALID_PLAYER, EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2
@@ -33,7 +33,7 @@ EverGrandeCity_HallOfFame_EventScript_EnterHallOfFame::
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, Common_Movement_WalkInPlaceFasterRight
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
-	msgbox EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
+	call EverGrandeCity_HallOfFame_EventScript_LetsRecordYouAndYourPartnersNames
 	closemessage
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, Common_Movement_WalkInPlaceFasterUp
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
@@ -80,6 +80,25 @@ EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2:
 	walk_up
 	step_end
 
+@ Master Rank: Steven brings the player here in Wallace's place (data/scripts/master_rank.inc)
+EverGrandeCity_HallOfFame_EventScript_HereWeHonorLeagueChampions::
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_HallOfFame_EventScript_StevenHereWeHonorLeagueChampions
+	msgbox EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_HallOfFame_EventScript_StevenHereWeHonorLeagueChampions::
+	msgbox EverGrandeCity_HallOfFame_Text_StevenHereWeHonorLeagueChampions, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_HallOfFame_EventScript_LetsRecordYouAndYourPartnersNames::
+	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_HallOfFame_EventScript_StevenLetsRecordYouAndYourPartnersNames
+	msgbox EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_HallOfFame_EventScript_StevenLetsRecordYouAndYourPartnersNames::
+	msgbox EverGrandeCity_HallOfFame_Text_StevenLetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
+	return
+
 EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions:
 	.string "WALLACE: This room…\p"
 	.string "This is where we keep records of\n"
@@ -94,3 +113,16 @@ EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames:
 	.string "the POKéMON LEAGUE, and the names of\l"
 	.string "the partners who battled with you.$"
 
+EverGrandeCity_HallOfFame_Text_StevenHereWeHonorLeagueChampions:
+	.string "STEVEN: This room…\p"
+	.string "This is where we keep records of\n"
+	.string "POKéMON that prevailed through\l"
+	.string "harsh battles.\p"
+	.string "I never thought I'd stand in here\n"
+	.string "as CHAMPION again.$"
+
+EverGrandeCity_HallOfFame_Text_StevenLetsRecordYouAndYourPartnersNames:
+	.string "STEVEN: Come, let's record your\n"
+	.string "name as the TRAINER who triumphed\l"
+	.string "over MASTER RANK, and the names of\l"
+	.string "the partners who battled with you.$"

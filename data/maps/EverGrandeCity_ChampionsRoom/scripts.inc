@@ -73,6 +73,19 @@ EverGrandeCity_ChampionsRoom_EventScript_Steven::
 	goto EverGrandeCity_ChampionsRoom_EventScript_StevenDefeated
 	end
 
+@ Steven's gift for the first Master Rank win. With no room in the BAG, he gives it on the next win instead
+EverGrandeCity_ChampionsRoom_EventScript_StevenGiveMasterBall::
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenTakeThis, MSGBOX_DEFAULT
+	giveitem ITEM_MASTER_BALL
+	goto_if_eq VAR_RESULT, FALSE, EverGrandeCity_ChampionsRoom_EventScript_StevenBagFull
+	setflag FLAG_RECEIVED_MASTER_BALL_FROM_STEVEN
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenMasterBallExplanation, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_ChampionsRoom_EventScript_StevenBagFull::
+	msgbox EverGrandeCity_ChampionsRoom_Text_StevenBagFull, MSGBOX_DEFAULT
+	return
+
 EverGrandeCity_ChampionsRoom_EventScript_StevenMeteorFallsWarmUp::
 	msgbox EverGrandeCity_ChampionsRoom_Text_StevenMeteorFallsWarmUp, MSGBOX_DEFAULT
 	return
@@ -84,6 +97,7 @@ EverGrandeCity_ChampionsRoom_EventScript_StevenDefeated::
 	special DrawWholeMapView
 	setvar VAR_MASTER_RANK_STATE, MASTER_RANK_CLEARED
 	msgbox EverGrandeCity_ChampionsRoom_Text_StevenPostBattleSpeech, MSGBOX_DEFAULT
+	call_if_unset FLAG_RECEIVED_MASTER_BALL_FROM_STEVEN, EverGrandeCity_ChampionsRoom_EventScript_StevenGiveMasterBall
 	closemessage
 	applymovement LOCALID_CHAMPIONS_ROOM_WALLACE, EverGrandeCity_ChampionsRoom_Movement_WallaceExitStart
 	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExitStart
@@ -402,3 +416,16 @@ EverGrandeCity_ChampionsRoom_Text_StevenThisWay:
 	.string "STEVEN: Come. Let us record your\n"
 	.string "name, and your partners', in the\l"
 	.string "HALL OF FAME.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenTakeThis:
+	.string "STEVEN: Before we go, take this.\n"
+	.string "Consider it a CHAMPION's thanks.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenMasterBallExplanation:
+	.string "STEVEN: Out there, somewhere, a\n"
+	.string "POKéMON is waiting for a TRAINER\l"
+	.string "like you. Use it when you meet it.$"
+
+EverGrandeCity_ChampionsRoom_Text_StevenBagFull:
+	.string "STEVEN: Your BAG is full? Then I'll\n"
+	.string "keep it until you beat me again.$"
