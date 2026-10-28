@@ -80,11 +80,11 @@
 #define OBJ_EVENT_GFX_SPENSER                     73
 #define OBJ_EVENT_GFX_NOLAND                      74
 #define OBJ_EVENT_GFX_LUCY                        75
-#define OBJ_EVENT_GFX_UNUSED_NATU_DOLL            76
-#define OBJ_EVENT_GFX_UNUSED_MAGNEMITE_DOLL       77
-#define OBJ_EVENT_GFX_UNUSED_SQUIRTLE_DOLL        78
-#define OBJ_EVENT_GFX_UNUSED_WOOPER_DOLL          79
-#define OBJ_EVENT_GFX_UNUSED_PIKACHU_DOLL         80
+#define OBJ_EVENT_GFX_LORELEI                    76 // Kanto Exhibition; was an unused doll
+#define OBJ_EVENT_GFX_BRUNO                      77 // Kanto Exhibition; was an unused doll
+#define OBJ_EVENT_GFX_AGATHA                     78 // Kanto Exhibition; was an unused doll
+#define OBJ_EVENT_GFX_LANCE                      79 // Kanto Exhibition; was an unused doll
+#define OBJ_EVENT_GFX_BLUE                       80 // Kanto Exhibition; was an unused doll
 #define OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL        81
 #define OBJ_EVENT_GFX_CUTTABLE_TREE               82
 #define OBJ_EVENT_GFX_MART_EMPLOYEE               83

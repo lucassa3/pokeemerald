@@ -277,6 +277,18 @@ const u32 gTrainerPalette_RubySapphireBrendan[] = INCGFX_U32("graphics/trainers/
 const u32 gTrainerFrontPic_RubySapphireMay[] = INCGFX_U32("graphics/trainers/front_pics/may_rs.png", ".4bpp.lz");
 const u32 gTrainerPalette_RubySapphireMay[] = INCGFX_U32("graphics/trainers/palettes/may_rs.pal", ".gbapal.lz");
 
+// Kanto Exhibition, from pokefirered (the palette is the PNG's own)
+const u32 gTrainerFrontPic_EliteFourLorelei[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_lorelei.png", ".4bpp.lz");
+const u32 gTrainerPalette_EliteFourLorelei[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_lorelei.png", ".gbapal.lz");
+const u32 gTrainerFrontPic_EliteFourBruno[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_bruno.png", ".4bpp.lz");
+const u32 gTrainerPalette_EliteFourBruno[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_bruno.png", ".gbapal.lz");
+const u32 gTrainerFrontPic_EliteFourAgatha[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_agatha.png", ".4bpp.lz");
+const u32 gTrainerPalette_EliteFourAgatha[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_agatha.png", ".gbapal.lz");
+const u32 gTrainerFrontPic_EliteFourLance[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_lance.png", ".4bpp.lz");
+const u32 gTrainerPalette_EliteFourLance[] = INCGFX_U32("graphics/trainers/front_pics/elite_four_lance.png", ".gbapal.lz");
+const u32 gTrainerFrontPic_ChampionBlue[] = INCGFX_U32("graphics/trainers/front_pics/champion_blue.png", ".4bpp.lz");
+const u32 gTrainerPalette_ChampionBlue[] = INCGFX_U32("graphics/trainers/front_pics/champion_blue.png", ".gbapal.lz");
+
 const u8 gTrainerBackPic_Brendan[] = INCGFX_U8("graphics/trainers/back_pics/brendan.png", ".4bpp");
 const u8 gTrainerBackPic_May[] = INCGFX_U8("graphics/trainers/back_pics/may.png", ".4bpp");
 const u8 gTrainerBackPic_Red[] = INCGFX_U8("graphics/trainers/back_pics/red.png", ".4bpp");

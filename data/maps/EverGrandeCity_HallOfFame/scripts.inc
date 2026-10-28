@@ -81,7 +81,10 @@ EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2:
 	step_end
 
 @ Master Rank: Steven brings the player here in Wallace's place (data/scripts/master_rank.inc)
+@ Kanto Exhibition: Blue or Red speak instead (data/scripts/kanto_exhibition.inc)
 EverGrandeCity_HallOfFame_EventScript_HereWeHonorLeagueChampions::
+	call KantoExhibition_EventScript_HallOfFameHereWeHonor
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_HallOfFame_EventScript_StevenHereWeHonorLeagueChampions
 	msgbox EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions, MSGBOX_DEFAULT
 	return
@@ -91,6 +94,8 @@ EverGrandeCity_HallOfFame_EventScript_StevenHereWeHonorLeagueChampions::
 	return
 
 EverGrandeCity_HallOfFame_EventScript_LetsRecordYouAndYourPartnersNames::
+	call KantoExhibition_EventScript_HallOfFameLetsRecord
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_HallOfFame_EventScript_StevenLetsRecordYouAndYourPartnersNames
 	msgbox EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
 	return

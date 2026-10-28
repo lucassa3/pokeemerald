@@ -468,6 +468,9 @@ const u8 gInitialMovementTypeFacingDirections[] = {
 #define OBJ_EVENT_PAL_TAG_LUGIA                   0x1121
 #define OBJ_EVENT_PAL_TAG_RS_BRENDAN              0x1122
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
+#define OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE          0x1124
+#define OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK           0x1125
+#define OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN          0x1126
 #define OBJ_EVENT_PAL_TAG_NONE                    0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -508,6 +511,9 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_SubmarineShadow,       OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW},
     {gObjectEventPal_Poochyena,             OBJ_EVENT_PAL_TAG_POOCHYENA},
     {gObjectEventPal_RedLeaf,               OBJ_EVENT_PAL_TAG_RED_LEAF},
+    {gObjectEventPal_FrlgNpcWhite,          OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE},
+    {gObjectEventPal_FrlgNpcPink,           OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK},
+    {gObjectEventPal_FrlgNpcGreen,          OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN},
     {gObjectEventPal_Deoxys,                OBJ_EVENT_PAL_TAG_DEOXYS},
     {gObjectEventPal_BirthIslandStone,      OBJ_EVENT_PAL_TAG_BIRTH_ISLAND_STONE},
     {gObjectEventPal_HoOh,                  OBJ_EVENT_PAL_TAG_HO_OH},
@@ -627,6 +633,27 @@ static const u16 sReflectionPaletteTags_RedLeaf[] = {
     OBJ_EVENT_PAL_TAG_RED_LEAF,
 };
 
+static const u16 sReflectionPaletteTags_FrlgNpcWhite[] = {
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE,
+};
+
+static const u16 sReflectionPaletteTags_FrlgNpcPink[] = {
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK,
+};
+
+static const u16 sReflectionPaletteTags_FrlgNpcGreen[] = {
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN,
+    OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN,
+};
+
 static const struct PairedPalettes sSpecialObjectReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_BRENDAN,          sReflectionPaletteTags_Brendan},
     {OBJ_EVENT_PAL_TAG_MAY,              sReflectionPaletteTags_May},
@@ -641,6 +668,9 @@ static const struct PairedPalettes sSpecialObjectReflectionPaletteSets[] = {
     {OBJ_EVENT_PAL_TAG_NPC_3,            sReflectionPaletteTags_Npc3},
     {OBJ_EVENT_PAL_TAG_SUBMARINE_SHADOW, sReflectionPaletteTags_SubmarineShadow},
     {OBJ_EVENT_PAL_TAG_RED_LEAF,         sReflectionPaletteTags_RedLeaf},
+    {OBJ_EVENT_PAL_TAG_FRLG_NPC_WHITE, sReflectionPaletteTags_FrlgNpcWhite},
+    {OBJ_EVENT_PAL_TAG_FRLG_NPC_PINK,  sReflectionPaletteTags_FrlgNpcPink},
+    {OBJ_EVENT_PAL_TAG_FRLG_NPC_GREEN, sReflectionPaletteTags_FrlgNpcGreen},
     {OBJ_EVENT_PAL_TAG_NONE,             NULL},
 };
 

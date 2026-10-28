@@ -370,6 +370,26 @@ static const union AnimCmd *const sAnims_RubySapphireMay[] ={
     sAnim_GeneralFrame0,
 };
 
+static const union AnimCmd *const sAnims_EliteFourLorelei[] ={
+    sAnim_GeneralFrame0,
+};
+
+static const union AnimCmd *const sAnims_EliteFourBruno[] ={
+    sAnim_GeneralFrame0,
+};
+
+static const union AnimCmd *const sAnims_EliteFourAgatha[] ={
+    sAnim_GeneralFrame0,
+};
+
+static const union AnimCmd *const sAnims_EliteFourLance[] ={
+    sAnim_GeneralFrame0,
+};
+
+static const union AnimCmd *const sAnims_ChampionBlue[] ={
+    sAnim_GeneralFrame0,
+};
+
 const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[] =
 {
     [TRAINER_PIC_HIKER] = sAnims_Hiker,
@@ -465,4 +485,9 @@ const union AnimCmd *const *const gTrainerFrontAnimsPtrTable[] =
     [TRAINER_PIC_LEAF] = sAnims_Leaf,
     [TRAINER_PIC_RS_BRENDAN] = sAnims_RubySapphireBrendan,
     [TRAINER_PIC_RS_MAY] = sAnims_RubySapphireMay,
+    [TRAINER_PIC_ELITE_FOUR_LORELEI] = sAnims_EliteFourLorelei,
+    [TRAINER_PIC_ELITE_FOUR_BRUNO] = sAnims_EliteFourBruno,
+    [TRAINER_PIC_ELITE_FOUR_AGATHA] = sAnims_EliteFourAgatha,
+    [TRAINER_PIC_ELITE_FOUR_LANCE] = sAnims_EliteFourLance,
+    [TRAINER_PIC_CHAMPION_BLUE] = sAnims_ChampionBlue,
 };

@@ -4989,7 +4989,10 @@ static void HandleEndTurn_BattleWon(void)
         {
         case TRAINER_CLASS_ELITE_FOUR:
         case TRAINER_CLASS_CHAMPION:
-            PlayBGM(MUS_VICTORY_LEAGUE);
+            if (IsKantoExhibitionTrainer(gTrainerBattleOpponent_A))
+                PlayBGM(MUS_RG_VICTORY_GYM_LEADER); // As in FRLG's League
+            else
+                PlayBGM(MUS_VICTORY_LEAGUE);
             break;
         case TRAINER_CLASS_TEAM_AQUA:
         case TRAINER_CLASS_TEAM_MAGMA:

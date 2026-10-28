@@ -819,26 +819,30 @@ static u8 GetTrainerBattleTransition(void)
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         return B_TRANSITION_CHAMPION;
 
-    // Chosen by trainer pic rather than trainer ID, so the Master Rank Elite Four get their own mugshots too
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
+    // League mugshots. The Kanto Exhibition uses FRLG's ordinary trainer transitions instead (FRLG has no mugshots)
+    if (!IsKantoExhibitionTrainer(gTrainerBattleOpponent_A))
     {
-        switch (gTrainers[gTrainerBattleOpponent_A].trainerPic)
+        // Chosen by trainer pic rather than trainer ID, so the Master Rank Elite Four get their own mugshots too
+        if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
         {
-        case TRAINER_PIC_ELITE_FOUR_SIDNEY:
-            return B_TRANSITION_SIDNEY;
-        case TRAINER_PIC_ELITE_FOUR_PHOEBE:
-            return B_TRANSITION_PHOEBE;
-        case TRAINER_PIC_ELITE_FOUR_GLACIA:
-            return B_TRANSITION_GLACIA;
-        case TRAINER_PIC_ELITE_FOUR_DRAKE:
-            return B_TRANSITION_DRAKE;
-        default:
-            return B_TRANSITION_CHAMPION;
+            switch (gTrainers[gTrainerBattleOpponent_A].trainerPic)
+            {
+            case TRAINER_PIC_ELITE_FOUR_SIDNEY:
+                return B_TRANSITION_SIDNEY;
+            case TRAINER_PIC_ELITE_FOUR_PHOEBE:
+                return B_TRANSITION_PHOEBE;
+            case TRAINER_PIC_ELITE_FOUR_GLACIA:
+                return B_TRANSITION_GLACIA;
+            case TRAINER_PIC_ELITE_FOUR_DRAKE:
+                return B_TRANSITION_DRAKE;
+            default:
+                return B_TRANSITION_CHAMPION;
+            }
         }
-    }
 
-    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
-        return B_TRANSITION_CHAMPION;
+        if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
+            return B_TRANSITION_CHAMPION;
+    }
 
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_MAGMA
         || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_LEADER
@@ -990,14 +994,32 @@ static u8 TrainerBattleLoadArg8(const u8 *ptr)
     return T1_READ_8(ptr);
 }
 
+STATIC_ASSERT(TRAINERS_COUNT <= MAX_TRAINERS_COUNT + TRAINER_FLAGS_EXTRA_COUNT, TooManyTrainersForTrainerFlags);
+
+// The flag recording whether a trainer has been defeated. Trainers beyond the original block of trainer flags use
+// a block of flags vanilla never used (TRAINER_FLAGS_EXTRA_START), so existing saves keep all their flags
+// The Kanto Elite Four and Champions Blue and Red of the Kanto Exhibition (data/scripts/kanto_exhibition.inc).
+// They use FRLG's battle music and transitions
+bool32 IsKantoExhibitionTrainer(u16 trainerId)
+{
+    return trainerId >= TRAINER_LORELEI_EXHIBITION && trainerId <= TRAINER_RED_EXHIBITION;
+}
+
+static u16 GetTrainerFlagId(u16 trainerId)
+{
+    if (trainerId < MAX_TRAINERS_COUNT)
+        return TRAINER_FLAGS_START + trainerId;
+    return TRAINER_FLAGS_EXTRA_START + (trainerId - MAX_TRAINERS_COUNT);
+}
+
 static u16 GetTrainerAFlag(void)
 {
-    return TRAINER_FLAGS_START + gTrainerBattleOpponent_A;
+    return GetTrainerFlagId(gTrainerBattleOpponent_A);
 }
 
 static u16 GetTrainerBFlag(void)
 {
-    return TRAINER_FLAGS_START + gTrainerBattleOpponent_B;
+    return GetTrainerFlagId(gTrainerBattleOpponent_B);
 }
 
 static bool32 IsPlayerDefeated(u32 battleOutcome)
@@ -1224,7 +1246,7 @@ void SetUpTwoTrainersBattle(void)
 bool32 GetTrainerFlagFromScriptPointer(const u8 *data)
 {
     u32 flag = TrainerBattleLoadArg16(data + 2);
-    return FlagGet(TRAINER_FLAGS_START + flag);
+    return FlagGet(GetTrainerFlagId(flag));
 }
 
 // Set trainer's movement type so they stop and remain facing that direction
@@ -1265,17 +1287,17 @@ static void UNUSED SetBattledTrainerFlag(void)
 
 bool8 HasTrainerBeenFought(u16 trainerId)
 {
-    return FlagGet(TRAINER_FLAGS_START + trainerId);
+    return FlagGet(GetTrainerFlagId(trainerId));
 }
 
 void SetTrainerFlag(u16 trainerId)
 {
-    FlagSet(TRAINER_FLAGS_START + trainerId);
+    FlagSet(GetTrainerFlagId(trainerId));
 }
 
 void ClearTrainerFlag(u16 trainerId)
 {
-    FlagClear(TRAINER_FLAGS_START + trainerId);
+    FlagClear(GetTrainerFlagId(trainerId));
 }
 
 void BattleSetup_StartTrainerBattle(void)

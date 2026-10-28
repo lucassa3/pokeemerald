@@ -93,6 +93,11 @@ const struct MonCoords gTrainerFrontPicCoords[] =
     [TRAINER_PIC_LEAF] = {.size = 8, .y_offset = 1},
     [TRAINER_PIC_RS_BRENDAN] = {.size = 8, .y_offset = 1},
     [TRAINER_PIC_RS_MAY] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_ELITE_FOUR_LORELEI] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_ELITE_FOUR_BRUNO] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_ELITE_FOUR_AGATHA] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_ELITE_FOUR_LANCE] = {.size = 8, .y_offset = 1},
+    [TRAINER_PIC_CHAMPION_BLUE] = {.size = 8, .y_offset = 1},
 };
 
 #define TRAINER_SPRITE(trainerPic, sprite, size) [TRAINER_PIC_##trainerPic] = {sprite, size, TRAINER_PIC_##trainerPic}
@@ -192,6 +197,11 @@ const struct CompressedSpriteSheet gTrainerFrontPicTable[] =
     TRAINER_SPRITE(LEAF, gTrainerFrontPic_Leaf, TRAINER_PIC_SIZE),
     TRAINER_SPRITE(RS_BRENDAN, gTrainerFrontPic_RubySapphireBrendan, TRAINER_PIC_SIZE),
     TRAINER_SPRITE(RS_MAY, gTrainerFrontPic_RubySapphireMay, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(ELITE_FOUR_LORELEI, gTrainerFrontPic_EliteFourLorelei, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(ELITE_FOUR_BRUNO, gTrainerFrontPic_EliteFourBruno, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(ELITE_FOUR_AGATHA, gTrainerFrontPic_EliteFourAgatha, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(ELITE_FOUR_LANCE, gTrainerFrontPic_EliteFourLance, TRAINER_PIC_SIZE),
+    TRAINER_SPRITE(CHAMPION_BLUE, gTrainerFrontPic_ChampionBlue, TRAINER_PIC_SIZE),
 };
 
 #define TRAINER_PAL(trainerPic, pal) [TRAINER_PIC_##trainerPic] = {pal, TRAINER_PIC_##trainerPic}
@@ -291,4 +301,9 @@ const struct CompressedSpritePalette gTrainerFrontPicPaletteTable[] =
     TRAINER_PAL(LEAF, gTrainerPalette_Leaf),
     TRAINER_PAL(RS_BRENDAN, gTrainerPalette_RubySapphireBrendan),
     TRAINER_PAL(RS_MAY, gTrainerPalette_RubySapphireMay),
+    TRAINER_PAL(ELITE_FOUR_LORELEI, gTrainerPalette_EliteFourLorelei),
+    TRAINER_PAL(ELITE_FOUR_BRUNO, gTrainerPalette_EliteFourBruno),
+    TRAINER_PAL(ELITE_FOUR_AGATHA, gTrainerPalette_EliteFourAgatha),
+    TRAINER_PAL(ELITE_FOUR_LANCE, gTrainerPalette_EliteFourLance),
+    TRAINER_PAL(CHAMPION_BLUE, gTrainerPalette_ChampionBlue),
 };

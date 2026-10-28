@@ -345,6 +345,16 @@ const u32 gObjectEventPic_Mew[] = INCGFX_U32("graphics/object_events/pics/pokemo
 const u16 gObjectEventPal_RedLeaf[] = INCGFX_U16("graphics/object_events/palettes/red_leaf.pal", ".gbapal");
 const u32 gObjectEventPic_Red[] = INCGFX_U32("graphics/object_events/pics/people/red.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_Leaf[] = INCGFX_U32("graphics/object_events/pics/people/leaf.png", ".4bpp", "-mwidth 2 -mheight 4");
+
+// Kanto Exhibition, from pokefirered (they use FRLG's NPC palettes)
+const u32 gObjectEventPic_Lorelei[] = INCGFX_U32("graphics/object_events/pics/people/kanto_lorelei.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_Bruno[] = INCGFX_U32("graphics/object_events/pics/people/kanto_bruno.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_Agatha[] = INCGFX_U32("graphics/object_events/pics/people/kanto_agatha.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_Lance[] = INCGFX_U32("graphics/object_events/pics/people/kanto_lance.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_Blue[] = INCGFX_U32("graphics/object_events/pics/people/kanto_blue.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u16 gObjectEventPal_FrlgNpcWhite[] = INCGFX_U16("graphics/object_events/palettes/frlg_npc_white.pal", ".gbapal");
+const u16 gObjectEventPal_FrlgNpcPink[] = INCGFX_U16("graphics/object_events/palettes/frlg_npc_pink.pal", ".gbapal");
+const u16 gObjectEventPal_FrlgNpcGreen[] = INCGFX_U16("graphics/object_events/palettes/frlg_npc_green.pal", ".gbapal");
 const u16 gObjectEventPal_BirthIslandStone[] = INCGFX_U16("graphics/object_events/palettes/birth_island_stone.pal", ".gbapal");
 const u32 gObjectEventPic_BirthIslandStone[] = INCGFX_U32("graphics/object_events/pics/misc/birth_island_stone.png", ".4bpp");
 const u16 gObjectEventPal_Deoxys[] = INCGFX_U16("graphics/object_events/palettes/deoxys.pal", ".gbapal");

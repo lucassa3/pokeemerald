@@ -12660,3 +12660,364 @@ static const struct TrainerMonItemCustomMoves sParty_StevenChampion[] = {
     .moves = {MOVE_METEOR_MASH, MOVE_EARTHQUAKE, MOVE_PSYCHIC, MOVE_AGILITY}
     }
 };
+
+// Kanto Exhibition (data/scripts/kanto_exhibition.inc)
+static const struct TrainerMonItemCustomMoves sParty_LoreleiExhibition[] = {
+    {
+    .iv = 255,
+    .lvl = 72,
+    .species = SPECIES_DEWGONG,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_REST, MOVE_TOXIC}
+    },
+    {
+    .iv = 255,
+    .lvl = 72,
+    .species = SPECIES_CLOYSTER,
+    .heldItem = ITEM_KINGS_ROCK,
+    .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_SPIKES, MOVE_EXPLOSION}
+    },
+    {
+    .iv = 255,
+    .lvl = 73,
+    .species = SPECIES_SLOWBRO,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_SURF, MOVE_PSYCHIC, MOVE_ICE_BEAM, MOVE_CALM_MIND}
+    },
+    {
+    .iv = 255,
+    .lvl = 74,
+    .species = SPECIES_PILOSWINE,
+    .heldItem = ITEM_NEVER_MELT_ICE,
+    .moves = {MOVE_BLIZZARD, MOVE_EARTHQUAKE, MOVE_DOUBLE_EDGE, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 255,
+    .lvl = 75,
+    .species = SPECIES_JYNX,
+    .heldItem = ITEM_TWISTED_SPOON,
+    .moves = {MOVE_ICE_BEAM, MOVE_PSYCHIC, MOVE_LOVELY_KISS, MOVE_CALM_MIND}
+    },
+    {
+    .iv = 255,
+    .lvl = 77,
+    .species = SPECIES_LAPRAS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_ICE_BEAM, MOVE_SURF, MOVE_PSYCHIC, MOVE_THUNDER}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_BrunoExhibition[] = {
+    {
+    .iv = 255,
+    .lvl = 73,
+    .species = SPECIES_STEELIX,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_CRUNCH, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 255,
+    .lvl = 74,
+    .species = SPECIES_HITMONTOP,
+    .heldItem = ITEM_QUICK_CLAW,
+    .moves = {MOVE_TRIPLE_KICK, MOVE_MACH_PUNCH, MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 255,
+    .lvl = 74,
+    .species = SPECIES_HITMONCHAN,
+    .heldItem = ITEM_BLACK_BELT,
+    .moves = {MOVE_SKY_UPPERCUT, MOVE_MACH_PUNCH, MOVE_ROCK_SLIDE, MOVE_THUNDER_PUNCH}
+    },
+    {
+    .iv = 255,
+    .lvl = 75,
+    .species = SPECIES_HITMONLEE,
+    .heldItem = ITEM_BLACK_BELT,
+    .moves = {MOVE_HI_JUMP_KICK, MOVE_MEGA_KICK, MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 255,
+    .lvl = 76,
+    .species = SPECIES_STEELIX,
+    .heldItem = ITEM_METAL_COAT,
+    .moves = {MOVE_EARTHQUAKE, MOVE_IRON_TAIL, MOVE_CRUNCH, MOVE_EXPLOSION}
+    },
+    {
+    .iv = 255,
+    .lvl = 78,
+    .species = SPECIES_MACHAMP,
+    .heldItem = ITEM_LUM_BERRY,
+    .moves = {MOVE_CROSS_CHOP, MOVE_EARTHQUAKE, MOVE_BRICK_BREAK, MOVE_ROCK_SLIDE}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_AgathaExhibition[] = {
+    {
+    .iv = 255,
+    .lvl = 74,
+    .species = SPECIES_GENGAR,
+    .heldItem = ITEM_SPELL_TAG,
+    .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_CONFUSE_RAY, MOVE_HYPNOSIS}
+    },
+    {
+    .iv = 255,
+    .lvl = 74,
+    .species = SPECIES_CROBAT,
+    .heldItem = ITEM_SHARP_BEAK,
+    .moves = {MOVE_SLUDGE_BOMB, MOVE_AIR_CUTTER, MOVE_SHADOW_BALL, MOVE_CONFUSE_RAY}
+    },
+    {
+    .iv = 255,
+    .lvl = 75,
+    .species = SPECIES_MISDREAVUS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_PERISH_SONG}
+    },
+    {
+    .iv = 255,
+    .lvl = 76,
+    .species = SPECIES_WEEZING,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_SLUDGE_BOMB, MOVE_THUNDERBOLT, MOVE_FIRE_BLAST, MOVE_EXPLOSION}
+    },
+    {
+    .iv = 255,
+    .lvl = 76,
+    .species = SPECIES_ARBOK,
+    .heldItem = ITEM_POISON_BARB,
+    .moves = {MOVE_SLUDGE_BOMB, MOVE_EARTHQUAKE, MOVE_GIGA_DRAIN, MOVE_GLARE}
+    },
+    {
+    .iv = 255,
+    .lvl = 79,
+    .species = SPECIES_GENGAR,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_SHADOW_BALL, MOVE_PSYCHIC, MOVE_THUNDERBOLT, MOVE_SLUDGE_BOMB}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_LanceExhibition[] = {
+    {
+    .iv = 255,
+    .lvl = 75,
+    .species = SPECIES_GYARADOS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_THUNDER_WAVE}
+    },
+    {
+    .iv = 255,
+    .lvl = 76,
+    .species = SPECIES_DRAGONITE,
+    .heldItem = ITEM_DRAGON_FANG,
+    .moves = {MOVE_HYPER_BEAM, MOVE_EARTHQUAKE, MOVE_DRAGON_CLAW, MOVE_FLAMETHROWER}
+    },
+    {
+    .iv = 255,
+    .lvl = 77,
+    .species = SPECIES_KINGDRA,
+    .heldItem = ITEM_DRAGON_FANG,
+    .moves = {MOVE_HYPER_BEAM, MOVE_DRAGON_DANCE, MOVE_SURF, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 255,
+    .lvl = 77,
+    .species = SPECIES_CHARIZARD,
+    .heldItem = ITEM_CHARCOAL,
+    .moves = {MOVE_FLAMETHROWER, MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_AERIAL_ACE}
+    },
+    {
+    .iv = 255,
+    .lvl = 78,
+    .species = SPECIES_AERODACTYL,
+    .heldItem = ITEM_KINGS_ROCK,
+    .moves = {MOVE_HYPER_BEAM, MOVE_ANCIENT_POWER, MOVE_AERIAL_ACE, MOVE_EARTHQUAKE}
+    },
+    {
+    .iv = 255,
+    .lvl = 80,
+    .species = SPECIES_DRAGONITE,
+    .heldItem = ITEM_LUM_BERRY,
+    .moves = {MOVE_HYPER_BEAM, MOVE_OUTRAGE, MOVE_THUNDERBOLT, MOVE_ICE_BEAM}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_BlueExhibitionCharizard[] = {
+    {
+    .iv = 255,
+    .lvl = 80,
+    .species = SPECIES_HERACROSS,
+    .heldItem = ITEM_SILVER_POWDER,
+    .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 255,
+    .lvl = 81,
+    .species = SPECIES_ALAKAZAM,
+    .heldItem = ITEM_TWISTED_SPOON,
+    .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_REFLECT}
+    },
+    {
+    .iv = 255,
+    .lvl = 81,
+    .species = SPECIES_TYRANITAR,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_CRUNCH, MOVE_EARTHQUAKE, MOVE_THUNDERBOLT, MOVE_AERIAL_ACE}
+    },
+    {
+    .iv = 255,
+    .lvl = 82,
+    .species = SPECIES_EXEGGUTOR,
+    .heldItem = ITEM_MIRACLE_SEED,
+    .moves = {MOVE_GIGA_DRAIN, MOVE_PSYCHIC, MOVE_SLEEP_POWDER, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 255,
+    .lvl = 82,
+    .species = SPECIES_GYARADOS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_HYDRO_PUMP, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_HYPER_BEAM}
+    },
+    {
+    .iv = 255,
+    .lvl = 84,
+    .species = SPECIES_CHARIZARD,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_FIRE_BLAST, MOVE_DRAGON_CLAW, MOVE_AERIAL_ACE, MOVE_EARTHQUAKE}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_BlueExhibitionBlastoise[] = {
+    {
+    .iv = 255,
+    .lvl = 80,
+    .species = SPECIES_HERACROSS,
+    .heldItem = ITEM_SILVER_POWDER,
+    .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 255,
+    .lvl = 81,
+    .species = SPECIES_ALAKAZAM,
+    .heldItem = ITEM_TWISTED_SPOON,
+    .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_REFLECT}
+    },
+    {
+    .iv = 255,
+    .lvl = 81,
+    .species = SPECIES_TYRANITAR,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_CRUNCH, MOVE_EARTHQUAKE, MOVE_THUNDERBOLT, MOVE_AERIAL_ACE}
+    },
+    {
+    .iv = 255,
+    .lvl = 82,
+    .species = SPECIES_ARCANINE,
+    .heldItem = ITEM_CHARCOAL,
+    .moves = {MOVE_EXTREME_SPEED, MOVE_OVERHEAT, MOVE_AERIAL_ACE, MOVE_IRON_TAIL}
+    },
+    {
+    .iv = 255,
+    .lvl = 82,
+    .species = SPECIES_EXEGGUTOR,
+    .heldItem = ITEM_MIRACLE_SEED,
+    .moves = {MOVE_GIGA_DRAIN, MOVE_PSYCHIC, MOVE_SLEEP_POWDER, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 255,
+    .lvl = 84,
+    .species = SPECIES_BLASTOISE,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_RAIN_DANCE}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_BlueExhibitionVenusaur[] = {
+    {
+    .iv = 255,
+    .lvl = 80,
+    .species = SPECIES_HERACROSS,
+    .heldItem = ITEM_SILVER_POWDER,
+    .moves = {MOVE_MEGAHORN, MOVE_EARTHQUAKE, MOVE_COUNTER, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 255,
+    .lvl = 81,
+    .species = SPECIES_ALAKAZAM,
+    .heldItem = ITEM_TWISTED_SPOON,
+    .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_CALM_MIND, MOVE_REFLECT}
+    },
+    {
+    .iv = 255,
+    .lvl = 81,
+    .species = SPECIES_TYRANITAR,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_CRUNCH, MOVE_EARTHQUAKE, MOVE_THUNDERBOLT, MOVE_AERIAL_ACE}
+    },
+    {
+    .iv = 255,
+    .lvl = 82,
+    .species = SPECIES_GYARADOS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_HYDRO_PUMP, MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_HYPER_BEAM}
+    },
+    {
+    .iv = 255,
+    .lvl = 82,
+    .species = SPECIES_ARCANINE,
+    .heldItem = ITEM_CHARCOAL,
+    .moves = {MOVE_EXTREME_SPEED, MOVE_OVERHEAT, MOVE_AERIAL_ACE, MOVE_IRON_TAIL}
+    },
+    {
+    .iv = 255,
+    .lvl = 84,
+    .species = SPECIES_VENUSAUR,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_SOLAR_BEAM, MOVE_SLUDGE_BOMB, MOVE_EARTHQUAKE, MOVE_SUNNY_DAY}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_RedExhibition[] = {
+    {
+    .iv = 255,
+    .lvl = 88,
+    .species = SPECIES_PIKACHU,
+    .heldItem = ITEM_LIGHT_BALL,
+    .moves = {MOVE_VOLT_TACKLE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_IRON_TAIL}
+    },
+    {
+    .iv = 255,
+    .lvl = 85,
+    .species = SPECIES_ESPEON,
+    .heldItem = ITEM_TWISTED_SPOON,
+    .moves = {MOVE_PSYCHIC, MOVE_SHADOW_BALL, MOVE_MORNING_SUN, MOVE_CALM_MIND}
+    },
+    {
+    .iv = 255,
+    .lvl = 85,
+    .species = SPECIES_SNORLAX,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_BODY_SLAM, MOVE_EARTHQUAKE, MOVE_SHADOW_BALL, MOVE_REST}
+    },
+    {
+    .iv = 255,
+    .lvl = 86,
+    .species = SPECIES_VENUSAUR,
+    .heldItem = ITEM_MIRACLE_SEED,
+    .moves = {MOVE_GIGA_DRAIN, MOVE_SLUDGE_BOMB, MOVE_SLEEP_POWDER, MOVE_EARTHQUAKE}
+    },
+    {
+    .iv = 255,
+    .lvl = 86,
+    .species = SPECIES_CHARIZARD,
+    .heldItem = ITEM_CHARCOAL,
+    .moves = {MOVE_FLAMETHROWER, MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 255,
+    .lvl = 86,
+    .species = SPECIES_BLASTOISE,
+    .heldItem = ITEM_MYSTIC_WATER,
+    .moves = {MOVE_HYDRO_PUMP, MOVE_ICE_BEAM, MOVE_EARTHQUAKE, MOVE_FOCUS_PUNCH}
+    }
+};
