@@ -6448,6 +6448,10 @@ u16 GetBattleBGM(void)
         else
             trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
 
+        // The Kanto Exhibition plays FRLG's League themes
+        if (!(gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_HILL)) && IsKantoExhibitionTrainer(gTrainerBattleOpponent_A))
+            return trainerClass == TRAINER_CLASS_CHAMPION ? MUS_RG_VS_CHAMPION : MUS_RG_VS_GYM_LEADER;
+
         switch (trainerClass)
         {
         case TRAINER_CLASS_AQUA_LEADER:

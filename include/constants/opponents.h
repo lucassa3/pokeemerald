@@ -861,12 +861,22 @@
 #define TRAINER_GLACIA_MASTER               857
 #define TRAINER_DRAKE_MASTER                858
 #define TRAINER_STEVEN_CHAMPION             859
+// Kanto Exhibition. From MAX_TRAINERS_COUNT (864) on, defeat flags are in TRAINER_FLAGS_EXTRA_START
+#define TRAINER_LORELEI_EXHIBITION          860
+#define TRAINER_BRUNO_EXHIBITION            861
+#define TRAINER_AGATHA_EXHIBITION           862
+#define TRAINER_LANCE_EXHIBITION            863
+#define TRAINER_BLUE_EXHIBITION_CHARIZARD   864
+#define TRAINER_BLUE_EXHIBITION_BLASTOISE   865
+#define TRAINER_BLUE_EXHIBITION_VENUSAUR    866
+#define TRAINER_RED_EXHIBITION              867
 
-// NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 4 additional trainers before trainer flag space overflows
-//       More space can be made by shifting flags around in constants/flags.h or changing how trainer flags are handled
-//       MAX_TRAINERS_COUNT can be increased but will take up additional saveblock space
+// NOTE: Each Trainer uses a flag to record whether they've been defeated. Trainers below MAX_TRAINERS_COUNT use the
+//       block at TRAINER_FLAGS_START; trainers from MAX_TRAINERS_COUNT on use TRAINER_FLAGS_EXTRA_START
+//       (see constants/flags.h), so up to TRAINER_FLAGS_EXTRA_COUNT more can be added without changing MAX_TRAINERS_COUNT,
+//       which would move every flag after the trainer flags and break existing saves
 
-#define TRAINERS_COUNT                      860
+#define TRAINERS_COUNT                      868
 #define MAX_TRAINERS_COUNT                  864
 
 #endif  // GUARD_CONSTANTS_OPPONENTS_H

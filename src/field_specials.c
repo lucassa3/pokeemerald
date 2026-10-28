@@ -470,6 +470,24 @@ bool32 ShouldDoWallyMasterRankCall(void)
     }
 }
 
+// Scott calls about the Kanto Exhibition the first time the player is outdoors after clearing Master Rank
+bool32 ShouldDoScottKantoExhibitionCall(void)
+{
+    if (VarGet(VAR_MASTER_RANK_STATE) != MASTER_RANK_CLEARED || FlagGet(FLAG_KANTO_EXHIBITION_UNLOCKED) || !FlagGet(FLAG_HAS_MATCH_CALL))
+        return FALSE;
+
+    switch (gMapHeader.mapType)
+    {
+    case MAP_TYPE_TOWN:
+    case MAP_TYPE_CITY:
+    case MAP_TYPE_ROUTE:
+    case MAP_TYPE_OCEAN_ROUTE:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
 bool32 ShouldDoRivalRayquazaCall(void)
 {
     if (FlagGet(FLAG_DEFEATED_MAGMA_SPACE_CENTER))
