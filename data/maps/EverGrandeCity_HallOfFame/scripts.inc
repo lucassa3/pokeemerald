@@ -24,7 +24,7 @@ EverGrandeCity_HallOfFame_EventScript_EnterHallOfFame::
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, Common_Movement_WalkInPlaceFasterRight
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
-	msgbox EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions, MSGBOX_DEFAULT
+	call EverGrandeCity_HallOfFame_EventScript_HereWeHonorLeagueChampions
 	closemessage
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2
 	applymovement LOCALID_PLAYER, EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2
@@ -33,7 +33,7 @@ EverGrandeCity_HallOfFame_EventScript_EnterHallOfFame::
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, Common_Movement_WalkInPlaceFasterRight
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
-	msgbox EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
+	call EverGrandeCity_HallOfFame_EventScript_LetsRecordYouAndYourPartnersNames
 	closemessage
 	applymovement LOCALID_HALL_OF_FAME_WALLACE, Common_Movement_WalkInPlaceFasterUp
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
@@ -79,6 +79,19 @@ EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2:
 	walk_up
 	walk_up
 	step_end
+
+@ Kanto Exhibition: Blue or Red speak instead (data/scripts/kanto_exhibition.inc)
+EverGrandeCity_HallOfFame_EventScript_HereWeHonorLeagueChampions::
+	call KantoExhibition_EventScript_HallOfFameHereWeHonor
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	msgbox EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_HallOfFame_EventScript_LetsRecordYouAndYourPartnersNames::
+	call KantoExhibition_EventScript_HallOfFameLetsRecord
+	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	msgbox EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
+	return
 
 EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions:
 	.string "WALLACE: This room…\p"

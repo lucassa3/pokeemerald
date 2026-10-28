@@ -597,6 +597,11 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
             ScriptContext_SetupScript(MasterRank_EventScript_WallyCall);
             return TRUE;
         }
+        if (ShouldDoScottKantoExhibitionCall() == TRUE)
+        {
+            ScriptContext_SetupScript(KantoExhibition_EventScript_ScottCall);
+            return TRUE;
+        }
     }
 
     if (SafariZoneTakeStep() == TRUE)

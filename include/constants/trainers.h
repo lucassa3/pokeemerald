@@ -109,6 +109,12 @@
 #define TRAINER_PIC_LEAF                  90
 #define TRAINER_PIC_RS_BRENDAN            91
 #define TRAINER_PIC_RS_MAY                92
+// Kanto Exhibition (FireRed/LeafGreen front pics)
+#define TRAINER_PIC_ELITE_FOUR_LORELEI     93
+#define TRAINER_PIC_ELITE_FOUR_BRUNO       94
+#define TRAINER_PIC_ELITE_FOUR_AGATHA      95
+#define TRAINER_PIC_ELITE_FOUR_LANCE       96
+#define TRAINER_PIC_CHAMPION_BLUE          97
 
 // The player back pics are assumed to alternate according to the gender values (MALE/FEMALE)
 #define TRAINER_BACK_PIC_BRENDAN                0

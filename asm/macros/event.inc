@@ -839,19 +839,19 @@
 	.byte SCR_OP_GOTOBEATENSCRIPT
 	.endm
 
-	@ Checks if the trainer has been defeated by the player (by comparing the flag 'trainer + TRAINER_FLAGS_START' to TRUE).
+	@ Checks if the trainer has been defeated by the player (by comparing the trainer's flag, see GetTrainerFlagId, to TRUE).
 	.macro checktrainerflag trainer:req
 	.byte SCR_OP_CHECKTRAINERFLAG
 	.2byte \trainer
 	.endm
 
-	@ Sets the trainer flag (trainer + TRAINER_FLAGS_START) to TRUE (defeated).
+	@ Sets the trainer's flag (see GetTrainerFlagId) to TRUE (defeated).
 	.macro settrainerflag trainer:req
 	.byte SCR_OP_SETTRAINERFLAG
 	.2byte \trainer
 	.endm
 
-	@ Sets the trainer flag (trainer + TRAINER_FLAGS_START) to FALSE (not defeated).
+	@ Sets the trainer's flag (see GetTrainerFlagId) to FALSE (not defeated).
 	.macro cleartrainerflag trainer:req
 	.byte SCR_OP_CLEARTRAINERFLAG
 	.2byte \trainer

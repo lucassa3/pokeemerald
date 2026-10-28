@@ -1011,6 +1011,7 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/text/cable_club.inc"
 	.include "data/scripts/event_tickets.inc"
 	.include "data/scripts/master_rank.inc"
+	.include "data/scripts/kanto_exhibition.inc"
 	.include "data/scripts/contest_hall.inc"
 	.include "data/text/contest_strings.inc"
 	.include "data/text/contest_link.inc"
