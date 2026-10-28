@@ -44,7 +44,7 @@
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
 #define FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE_MASTER_RANK 0x20
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
+#define FLAG_RECEIVED_MASTER_BALL_FROM_STEVEN 0x21
 #define FLAG_KANTO_EXHIBITION_UNLOCKED 0x22 // Set by Scott's call after Master Rank is cleared
 #define FLAG_HIDE_LEAGUE_CHALLENGE_ATTENDANT 0x23
 #define FLAG_RECEIVED_KANTO_STARTER 0x24 // Gift from Blue after the first Kanto Exhibition win against him
