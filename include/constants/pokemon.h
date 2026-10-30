@@ -254,6 +254,11 @@
 #define EVO_LEVEL_NINJASK    13 // Pokémon reaches the specified level (special value for Ninjask)
 #define EVO_LEVEL_SHEDINJA   14 // Pokémon reaches the specified level (special value for Shedinja)
 #define EVO_BEAUTY           15 // Pokémon levels up with beauty ≥ specified value
+#define EVO_LEVEL_MALE       16 // Pokémon reaches the specified level and is male
+#define EVO_LEVEL_FEMALE     17 // Pokémon reaches the specified level and is female
+
+// Level at which Pokémon that evolve by trade (and Feebas) also evolve, so the Hoenn Pokédex needs no trading
+#define TRADE_EVO_LEVEL 50
 
 #define EVOS_PER_MON 5
 
