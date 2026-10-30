@@ -156,7 +156,7 @@
 #define VAR_CONTEST_TYPE                                 0x4088
 #define VAR_SECRET_BASE_INITIALIZED                      0x4089
 #define VAR_CONTEST_PRIZE_PICKUP                         0x408A
-#define VAR_LEAGUE_CHALLENGE                             0x408B // LEAGUE_CHALLENGE_* below, chosen at the League lobby
+#define VAR_LEAGUE_CHALLENGE                             0x408B // LEAGUE_CHALLENGE_* below
 #define VAR_LITTLEROOT_HOUSES_STATE_BRENDAN              0x408C
 #define VAR_LITTLEROOT_RIVAL_STATE                       0x408D
 #define VAR_BOARD_BRINEY_BOAT_STATE                      0x408E
@@ -329,9 +329,8 @@
 #define MASTER_RANK_UNLOCKED 1 // The League is Master Rank: enhanced Elite Four, Steven as Champion
 #define MASTER_RANK_CLEARED  2 // Steven beaten at least once; Wallace appears in Sootopolis
 
-// Values for VAR_LEAGUE_CHALLENGE, picked at the League lobby once FLAG_KANTO_EXHIBITION_UNLOCKED is set
+// Values for VAR_LEAGUE_CHALLENGE, set by the fan in the League lobby once FLAG_KANTO_EXHIBITION_UNLOCKED is set
 #define LEAGUE_CHALLENGE_MASTER_RANK 0 // Master Rank Elite Four and Steven
-#define LEAGUE_CHALLENGE_KANTO_BLUE  1 // Kanto Elite Four (TRAINER_*_EXHIBITION) and Blue
-#define LEAGUE_CHALLENGE_KANTO_RED   2 // Kanto Elite Four and Red
+#define LEAGUE_CHALLENGE_KANTO_BLUE  1 // Kanto Elite Four (TRAINER_*_EXHIBITION) and Blue, until the Hall of Fame
 
 #endif // GUARD_CONSTANTS_VARS_H

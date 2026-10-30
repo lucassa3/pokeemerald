@@ -104,17 +104,24 @@ EverGrandeCity_PhoebesRoom_Text_PostBattleSpeech:
 	.string "Go ahead, move on to the next room.$"
 
 EverGrandeCity_PhoebesRoom_Text_MasterRankIntroSpeech:
-	.string "Ahahaha! You came back!\p"
-	.string "I spent every night on MT. PYRE,\n"
-	.string "listening to the spirits whisper\l"
-	.string "about this battle.\p"
-	.string "They say you're in for a scare.\n"
-	.string "Let's find out!$"
+	.string "Ahahaha! There you are!\p"
+	.string "After I lost, I went home and\n"
+	.string "asked Granny to train me the\l"
+	.string "old way.\p"
+	.string "Nights at the summit, in the fog,\n"
+	.string "with only the spirits for company.\p"
+	.string "They remember you, {PLAYER}.\n"
+	.string "They've been looking forward to\l"
+	.string "this as much as I have!\p"
+	.string "So come on! Let's see if your bond\n"
+	.string "holds up against all of us!$"
 
 EverGrandeCity_PhoebesRoom_Text_MasterRankDefeat:
-	.string "Oh, wow… Even the spirits are\n"
-	.string "impressed!$"
+	.string "Oh… Ahaha… The spirits went quiet.\n"
+	.string "I think they're impressed!$"
 
 EverGrandeCity_PhoebesRoom_Text_MasterRankPostBattleSpeech:
-	.string "GLACIA's next. Bring two of\n"
-	.string "your best, she won't fight alone!$"
+	.string "Your bond is even stronger now.\p"
+	.string "Watch out for GLACIA, though.\n"
+	.string "She's been training with two\l"
+	.string "POKéMON at once. Have two ready!$"

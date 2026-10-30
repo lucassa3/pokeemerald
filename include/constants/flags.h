@@ -48,7 +48,7 @@
 #define FLAG_KANTO_EXHIBITION_UNLOCKED 0x22 // Set by Scott's call after Master Rank is cleared
 #define FLAG_HIDE_LEAGUE_CHALLENGE_ATTENDANT 0x23
 #define FLAG_RECEIVED_KANTO_STARTER 0x24 // Gift from Blue after the first Kanto Exhibition win against him
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
+#define FLAG_HIDE_MT_PYRE_SUMMIT_RED 0x25
 #define FLAG_UNUSED_0x026    0x26 // Unused Flag
 #define FLAG_UNUSED_0x027    0x27 // Unused Flag
 #define FLAG_UNUSED_0x028    0x28 // Unused Flag

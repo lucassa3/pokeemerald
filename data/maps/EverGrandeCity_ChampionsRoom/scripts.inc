@@ -28,7 +28,6 @@ EverGrandeCity_ChampionsRoom_EventScript_EnterRoom::
 	applywaitmovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerApproachWallace
 	setvar VAR_TEMP_1, 1
 	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_Blue
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED, KantoExhibition_EventScript_Red
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_ChampionsRoom_EventScript_Steven
 	goto EverGrandeCity_ChampionsRoom_EventScript_Wallace
 	releaseall

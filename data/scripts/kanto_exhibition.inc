@@ -1,6 +1,8 @@
-@ Kanto Exhibition. After Master Rank is cleared, Scott calls and an attendant appears in the League lobby who sets
-@ VAR_LEAGUE_CHALLENGE: Master Rank (Steven), or the Kanto Elite Four (TRAINER_*_EXHIBITION) with Blue or Red as
-@ Champion. The Elite Four rooms swap their member's sprite (VAR_OBJ_GFX_ID_0) and branch here before Master Rank.
+@ Kanto Exhibition. After Master Rank is cleared, Scott calls about a rumoured show match, and a fan appears in the
+@ League lobby. Telling them the rumours are true sets VAR_LEAGUE_CHALLENGE to LEAGUE_CHALLENGE_KANTO_BLUE for the
+@ next run: the Kanto Elite Four (TRAINER_*_EXHIBITION) with Blue as Champion. The Hall of Fame sets it back to
+@ Master Rank. The Elite Four rooms swap their member's sprite (VAR_OBJ_GFX_ID_0) and branch here before Master Rank.
+@ Once Blue has been beaten, Red waits at the summit of Mt. Pyre.
 
 @ Started by ShouldDoScottKantoExhibitionCall (src/field_specials.c)
 KantoExhibition_EventScript_ScottCall::
@@ -13,56 +15,38 @@ KantoExhibition_EventScript_ScottCall::
 
 @ League lobby
 KantoExhibition_EventScript_SetupLeagueLobby::
+	call_if_gt VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_ResetLeagueChallenge
 	setflag FLAG_HIDE_LEAGUE_CHALLENGE_ATTENDANT
 	goto_if_unset FLAG_KANTO_EXHIBITION_UNLOCKED, Common_EventScript_NopReturn
 	clearflag FLAG_HIDE_LEAGUE_CHALLENGE_ATTENDANT
 	return
 
+@ Also called by the Hall of Fame, so each Kanto run has to be asked for again
+KantoExhibition_EventScript_ResetLeagueChallenge::
+	setvar VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK
+	return
+
 EverGrandeCity_PokemonLeague_1F_EventScript_ChallengeAttendant::
 	lock
 	faceplayer
-	msgbox KantoExhibition_Text_AttendantWelcome, MSGBOX_DEFAULT
-	call_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK, KantoExhibition_EventScript_BufferMasterRank
-	call_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_BufferKantoBlue
-	call_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED, KantoExhibition_EventScript_BufferKantoRed
-	message KantoExhibition_Text_WhichChallenge
-	waitmessage
-	multichoice 17, 2, MULTI_LEAGUE_CHALLENGE, FALSE
-	switch VAR_RESULT
-	case 0, KantoExhibition_EventScript_ChooseMasterRank
-	case 1, KantoExhibition_EventScript_ChooseKantoBlue
-	case 2, KantoExhibition_EventScript_ChooseKantoRed
-	msgbox KantoExhibition_Text_AttendantGoodLuck, MSGBOX_DEFAULT
-	release
-	end
-
-KantoExhibition_EventScript_BufferMasterRank::
-	bufferstring STR_VAR_1, gText_MasterRank
-	return
-
-KantoExhibition_EventScript_BufferKantoBlue::
-	bufferstring STR_VAR_1, gText_KantoBlue
-	return
-
-KantoExhibition_EventScript_BufferKantoRed::
-	bufferstring STR_VAR_1, gText_KantoRed
-	return
-
-KantoExhibition_EventScript_ChooseMasterRank::
-	setvar VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK
-	msgbox KantoExhibition_Text_ChoseMasterRank, MSGBOX_DEFAULT
-	release
-	end
-
-KantoExhibition_EventScript_ChooseKantoBlue::
+	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_FanKantoRunSet
+	msgbox KantoExhibition_Text_FanRumours, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, KantoExhibition_EventScript_FanJustRumours
 	setvar VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE
-	msgbox KantoExhibition_Text_ChoseKantoBlue, MSGBOX_DEFAULT
+	msgbox KantoExhibition_Text_FanRumoursTrue, MSGBOX_DEFAULT
 	release
 	end
 
-KantoExhibition_EventScript_ChooseKantoRed::
-	setvar VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED
-	msgbox KantoExhibition_Text_ChoseKantoRed, MSGBOX_DEFAULT
+KantoExhibition_EventScript_FanKantoRunSet::
+	msgbox KantoExhibition_Text_FanStillOn, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, KantoExhibition_EventScript_FanJustRumours
+	msgbox KantoExhibition_Text_FanGoGetThem, MSGBOX_DEFAULT
+	release
+	end
+
+KantoExhibition_EventScript_FanJustRumours::
+	setvar VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK
+	msgbox KantoExhibition_Text_FanJustRumours, MSGBOX_DEFAULT
 	release
 	end
 
@@ -141,29 +125,15 @@ KantoExhibition_EventScript_Lance::
 	setflag FLAG_DEFEATED_ELITE_4_DRAKE
 	call PokemonLeague_EliteFour_SetAdvanceToNextRoomMetatiles
 KantoExhibition_EventScript_LancePostBattleSpeech::
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED, KantoExhibition_EventScript_LancePostBattleSpeechRed
-	msgbox KantoExhibition_Text_LancePostBattleBlue, MSGBOX_DEFAULT
+	msgbox KantoExhibition_Text_LancePostBattle, MSGBOX_DEFAULT
 	release
 	end
 
-KantoExhibition_EventScript_LancePostBattleSpeechRed::
-	msgbox KantoExhibition_Text_LancePostBattleRed, MSGBOX_DEFAULT
-	release
-	end
-
-@ Champion's room: the champion object (LOCALID_CHAMPIONS_ROOM_WALLACE) shows Blue or Red, see
+@ Champion's room: the champion object (LOCALID_CHAMPIONS_ROOM_WALLACE) shows Blue, see
 @ MasterRank_EventScript_SetupChampionGfxId
 KantoExhibition_EventScript_SetupChampionGfxId::
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_SetBlueGfxId
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED, KantoExhibition_EventScript_SetRedGfxId
-	return
-
-KantoExhibition_EventScript_SetBlueGfxId::
+	goto_if_ne VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, Common_EventScript_NopReturn
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_BLUE
-	return
-
-KantoExhibition_EventScript_SetRedGfxId::
-	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_RED
 	return
 
 @ Blue's team counters the player's Hoenn starter, like the rival in FRLG
@@ -188,37 +158,18 @@ KantoExhibition_EventScript_BattleBlueVenusaur::
 	end
 
 KantoExhibition_EventScript_BlueDefeated::
-	call KantoExhibition_EventScript_OpenChampionDoor
-	msgbox KantoExhibition_Text_BluePostBattle, MSGBOX_DEFAULT
-	call_if_unset FLAG_RECEIVED_KANTO_STARTER, KantoExhibition_EventScript_BlueGiveStarter
-	setvar VAR_0x8004, 0
-	goto KantoExhibition_EventScript_ChampionEscortToHallOfFame
-	end
-
-KantoExhibition_EventScript_Red::
-	msgbox KantoExhibition_Text_RedIntro, MSGBOX_DEFAULT
-	trainerbattle_no_intro TRAINER_RED_EXHIBITION, KantoExhibition_Text_RedDefeat
-	call KantoExhibition_EventScript_OpenChampionDoor
-	msgbox KantoExhibition_Text_RedPostBattle, MSGBOX_DEFAULT
-	setvar VAR_0x8004, 1
-	goto KantoExhibition_EventScript_ChampionEscortToHallOfFame
-	end
-
-KantoExhibition_EventScript_OpenChampionDoor::
 	playse SE_DOOR
 	setmetatile 6, 1, METATILE_EliteFour_OpenDoorChampion_Frame, FALSE
 	setmetatile 6, 2, METATILE_EliteFour_OpenDoorChampion_Opening, FALSE
 	special DrawWholeMapView
-	return
-
-@ VAR_0x8004: 0 for Blue, 1 for Red
-KantoExhibition_EventScript_ChampionEscortToHallOfFame::
+	msgbox KantoExhibition_Text_BluePostBattle, MSGBOX_DEFAULT
+	call_if_unset FLAG_RECEIVED_KANTO_STARTER, KantoExhibition_EventScript_BlueGiveStarter
+	msgbox KantoExhibition_Text_BlueRedHint, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_CHAMPIONS_ROOM_WALLACE, EverGrandeCity_ChampionsRoom_Movement_WallaceExitStart
 	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExitStart
 	waitmovement 0
-	call_if_eq VAR_0x8004, 0, KantoExhibition_EventScript_BlueThisWay
-	call_if_eq VAR_0x8004, 1, KantoExhibition_EventScript_RedThisWay
+	msgbox KantoExhibition_Text_BlueThisWay, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_CHAMPIONS_ROOM_WALLACE, EverGrandeCity_ChampionsRoom_Movement_WallaceExit
 	applymovement LOCALID_PLAYER, EverGrandeCity_ChampionsRoom_Movement_PlayerExit
@@ -228,14 +179,6 @@ KantoExhibition_EventScript_ChampionEscortToHallOfFame::
 	waitstate
 	releaseall
 	end
-
-KantoExhibition_EventScript_BlueThisWay::
-	msgbox KantoExhibition_Text_BlueThisWay, MSGBOX_DEFAULT
-	return
-
-KantoExhibition_EventScript_RedThisWay::
-	msgbox KantoExhibition_Text_RedThisWay, MSGBOX_DEFAULT
-	return
 
 @ First win against Blue: Professor Oak's Kanto starters, one per save. If the party and PC are both full the flag
 @ stays unset and Blue offers again next time.
@@ -290,36 +233,56 @@ KantoExhibition_EventScript_ReceivedStarter::
 	msgbox KantoExhibition_Text_BlueTakeCareOfIt, MSGBOX_DEFAULT
 	return
 
-@ Hall of Fame: Blue or Red speaks in the champion's place. VAR_RESULT is TRUE if they did.
+@ Hall of Fame: Blue speaks in the champion's place. VAR_RESULT is TRUE if he did.
 KantoExhibition_EventScript_HallOfFameHereWeHonor::
-	setvar VAR_RESULT, TRUE
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_BlueHereWeHonor
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED, KantoExhibition_EventScript_RedHereWeHonor
 	setvar VAR_RESULT, FALSE
-	return
-
-KantoExhibition_EventScript_BlueHereWeHonor::
+	goto_if_ne VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, Common_EventScript_NopReturn
 	msgbox KantoExhibition_Text_BlueHereWeHonor, MSGBOX_DEFAULT
-	return
-
-KantoExhibition_EventScript_RedHereWeHonor::
-	msgbox KantoExhibition_Text_RedHereWeHonor, MSGBOX_DEFAULT
+	setvar VAR_RESULT, TRUE
 	return
 
 KantoExhibition_EventScript_HallOfFameLetsRecord::
-	setvar VAR_RESULT, TRUE
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, KantoExhibition_EventScript_BlueLetsRecord
-	goto_if_eq VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_RED, KantoExhibition_EventScript_RedLetsRecord
 	setvar VAR_RESULT, FALSE
-	return
-
-KantoExhibition_EventScript_BlueLetsRecord::
+	goto_if_ne VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_KANTO_BLUE, Common_EventScript_NopReturn
 	msgbox KantoExhibition_Text_BlueLetsRecord, MSGBOX_DEFAULT
+	setvar VAR_RESULT, TRUE
 	return
 
-KantoExhibition_EventScript_RedLetsRecord::
-	msgbox KantoExhibition_Text_RedLetsRecord, MSGBOX_DEFAULT
+@ Mt. Pyre summit: Red appears once Blue has been beaten in any of his three teams, and can be fought any time
+KantoExhibition_EventScript_SetupMtPyreRed::
+	setflag FLAG_HIDE_MT_PYRE_SUMMIT_RED
+	goto_if_defeated TRAINER_BLUE_EXHIBITION_CHARIZARD, KantoExhibition_EventScript_ShowMtPyreRed
+	goto_if_defeated TRAINER_BLUE_EXHIBITION_BLASTOISE, KantoExhibition_EventScript_ShowMtPyreRed
+	goto_if_defeated TRAINER_BLUE_EXHIBITION_VENUSAUR, KantoExhibition_EventScript_ShowMtPyreRed
 	return
+
+KantoExhibition_EventScript_ShowMtPyreRed::
+	clearflag FLAG_HIDE_MT_PYRE_SUMMIT_RED
+	return
+
+MtPyre_Summit_EventScript_Red::
+	lock
+	faceplayer
+	goto_if_defeated TRAINER_RED_EXHIBITION, KantoExhibition_EventScript_RedRematch
+	msgbox KantoExhibition_Text_RedFirstMeeting, MSGBOX_DEFAULT
+	goto KantoExhibition_EventScript_RedAskBattle
+	end
+
+KantoExhibition_EventScript_RedRematch::
+	msgbox KantoExhibition_Text_RedRematch, MSGBOX_DEFAULT
+KantoExhibition_EventScript_RedAskBattle::
+	msgbox KantoExhibition_Text_RedAskBattle, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, KantoExhibition_EventScript_RedDeclined
+	msgbox KantoExhibition_Text_RedIntro, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_RED_EXHIBITION, KantoExhibition_Text_RedDefeat
+	msgbox KantoExhibition_Text_RedPostBattle, MSGBOX_DEFAULT
+	release
+	end
+
+KantoExhibition_EventScript_RedDeclined::
+	msgbox KantoExhibition_Text_RedDeclined, MSGBOX_DEFAULT
+	release
+	end
 
 KantoExhibition_Text_ScottCall:
 	.string "… … … … … …\n"
@@ -328,43 +291,45 @@ KantoExhibition_Text_ScottCall:
 	.string "SCOTT!\p"
 	.string "Word travels fast! You beat STEVEN\n"
 	.string "at MASTER RANK, didn't you?\p"
-	.string "Well, I've got news that'll make\n"
-	.string "your heart race!\p"
-	.string "KANTO's ELITE FOUR have come to\n"
-	.string "the POKéMON LEAGUE for a special\l"
-	.string "EXHIBITION!\p"
-	.string "And they brought their CHAMPIONS…\n"
-	.string "BLUE, and the legendary RED!\p"
-	.string "Talk to the attendant in the\n"
-	.string "LEAGUE lobby to pick a challenge.\p"
-	.string "I wouldn't miss this for anything!\p"
+	.string "Well, here's something that'll\n"
+	.string "make your heart race…\p"
+	.string "There's a rumor that KANTO's\n"
+	.string "LEAGUE came to HOENN for a\l"
+	.string "show match!\p"
+	.string "Their ELITE FOUR, and their\n"
+	.string "CHAMPION BLUE too!\p"
+	.string "Folks at the LEAGUE lobby can't\n"
+	.string "stop talking about it.\l"
+	.string "Go see what they know!\p"
 	.string "… … … … … …\n"
 	.string "… … … … … Click!$"
 
-KantoExhibition_Text_AttendantWelcome:
-	.string "Welcome to the KANTO EXHIBITION!\p"
-	.string "Choose which LEAGUE you'll face\n"
-	.string "beyond that door.$"
+KantoExhibition_Text_FanRumours:
+	.string "Hey! I heard KANTO's LEAGUE is\n"
+	.string "putting on a show match this week!\p"
+	.string "Their ELITE FOUR, right behind\n"
+	.string "that door, and BLUE as CHAMPION!\p"
+	.string "Are the rumors really true?$"
 
-KantoExhibition_Text_WhichChallenge:
-	.string "Your challenge right now is\n"
-	.string "{STR_VAR_1}.$"
+KantoExhibition_Text_FanRumoursTrue:
+	.string "No way! I knew it!\p"
+	.string "Then KANTO's ELITE FOUR are the\n"
+	.string "ones waiting for you in there!\p"
+	.string "Show them what HOENN's CHAMPION\n"
+	.string "can do, {PLAYER}!$"
 
-KantoExhibition_Text_AttendantGoodLuck:
-	.string "Very well. Best of luck!$"
+KantoExhibition_Text_FanStillOn:
+	.string "The KANTO show match is on!\n"
+	.string "It's on, right?$"
 
-KantoExhibition_Text_ChoseMasterRank:
-	.string "MASTER RANK it is.\n"
-	.string "STEVEN awaits you as CHAMPION.$"
+KantoExhibition_Text_FanGoGetThem:
+	.string "I knew it! BLUE won't know what\n"
+	.string "hit him. Go get them!$"
 
-KantoExhibition_Text_ChoseKantoBlue:
-	.string "KANTO's ELITE FOUR will face you,\n"
-	.string "with BLUE as CHAMPION.$"
-
-KantoExhibition_Text_ChoseKantoRed:
-	.string "KANTO's ELITE FOUR will face you,\n"
-	.string "and RED as CHAMPION…\p"
-	.string "Please be careful.$"
+KantoExhibition_Text_FanJustRumours:
+	.string "Aww… Just rumors, then.\p"
+	.string "MASTER RANK as usual. STEVEN's\n"
+	.string "waiting for you in there!$"
 
 KantoExhibition_Text_LoreleiIntro:
 	.string "Welcome to the POKéMON LEAGUE…\n"
@@ -439,22 +404,13 @@ KantoExhibition_Text_LanceDefeat:
 	.string "That's it! I hate to admit it,\n"
 	.string "but you are a POKéMON master!$"
 
-KantoExhibition_Text_LancePostBattleBlue:
+KantoExhibition_Text_LancePostBattle:
 	.string "I still can't believe my dragons\n"
 	.string "lost to you, {PLAYER}!\p"
 	.string "The CHAMPION is waiting beyond\n"
 	.string "that door.\p"
 	.string "BLUE has been looking forward to\n"
 	.string "this since the day SCOTT called.$"
-
-KantoExhibition_Text_LancePostBattleRed:
-	.string "I still can't believe my dragons\n"
-	.string "lost to you, {PLAYER}!\p"
-	.string "The CHAMPION beyond that door\n"
-	.string "is… RED.\p"
-	.string "He hasn't said a word since we\n"
-	.string "arrived in HOENN.\p"
-	.string "Good luck. You'll need it.$"
 
 KantoExhibition_Text_BlueIntro:
 	.string "BLUE: Hey! {PLAYER}!\p"
@@ -498,25 +454,20 @@ KantoExhibition_Text_BlueTakeCareOfIt:
 	.string "BLUE: Raise it well. Gramps will\n"
 	.string "want to hear all about it.$"
 
+KantoExhibition_Text_BlueRedHint:
+	.string "BLUE: …You know, RED came to\n"
+	.string "HOENN with us.\p"
+	.string "He took off the moment we landed.\n"
+	.string "Didn't say a word, as usual.\p"
+	.string "Last I saw, he was heading for\n"
+	.string "some mountain where POKéMON are\l"
+	.string "laid to rest.\p"
+	.string "If you think you're the best,\n"
+	.string "go find him.$"
+
 KantoExhibition_Text_BlueThisWay:
 	.string "BLUE: Come on, the HALL OF FAME\n"
 	.string "is this way. Don't make me wait.$"
-
-KantoExhibition_Text_RedIntro:
-	.string "RED: …\p"
-	.string "… … …$"
-
-KantoExhibition_Text_RedDefeat:
-	.string "…!$"
-
-KantoExhibition_Text_RedPostBattle:
-	.string "RED: …\p"
-	.string "RED smiled.$"
-
-KantoExhibition_Text_RedThisWay:
-	.string "RED: …\p"
-	.string "RED is pointing toward the\n"
-	.string "HALL OF FAME.$"
 
 KantoExhibition_Text_BlueHereWeHonor:
 	.string "BLUE: So this is HOENN's\n"
@@ -529,12 +480,29 @@ KantoExhibition_Text_BlueLetsRecord:
 	.string "your partners'. You earned it…\p"
 	.string "This time, anyway.$"
 
-KantoExhibition_Text_RedHereWeHonor:
-	.string "RED: …\p"
-	.string "RED is looking at the records\n"
-	.string "of past CHAMPIONS.$"
+KantoExhibition_Text_RedFirstMeeting:
+	.string "… … …\p"
+	.string "A silent TRAINER stands among\n"
+	.string "the graves, staring into the fog.\p"
+	.string "It's RED.$"
 
-KantoExhibition_Text_RedLetsRecord:
+KantoExhibition_Text_RedRematch:
+	.string "RED: …$"
+
+KantoExhibition_Text_RedAskBattle:
+	.string "RED is looking at you.\n"
+	.string "Will you battle?$"
+
+KantoExhibition_Text_RedIntro:
+	.string "RED: …!$"
+
+KantoExhibition_Text_RedDefeat:
+	.string "…!$"
+
+KantoExhibition_Text_RedPostBattle:
 	.string "RED: …\p"
-	.string "RED is pointing at the\n"
-	.string "recording machine.$"
+	.string "RED smiled, then turned back\n"
+	.string "toward the fog.$"
+
+KantoExhibition_Text_RedDeclined:
+	.string "RED: …$"
