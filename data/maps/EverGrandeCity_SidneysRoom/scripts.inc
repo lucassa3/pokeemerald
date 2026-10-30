@@ -107,15 +107,28 @@ EverGrandeCity_SidneysRoom_Text_PostBattleSpeech:
 	.string "your next battle!$"
 
 EverGrandeCity_SidneysRoom_Text_MasterRankIntroSpeech:
-	.string "Well, well! Look who's back!\p"
-	.string "Since you beat us, we've trained\n"
-	.string "like there's no tomorrow.\p"
-	.string "This is MASTER RANK, kid.\n"
-	.string "No more holding back. Ready?$"
+	.string "Well, well, well! Look who came\n"
+	.string "back to play!\p"
+	.string "After you beat us, the four of us\n"
+	.string "made a promise. No more coasting.\p"
+	.string "I spent months battling in the\n"
+	.string "back alleys of every HOENN city.\p"
+	.string "My POKéMON learned every dirty\n"
+	.string "trick there is.\p"
+	.string "This is MASTER RANK, CHAMPION.\n"
+	.string "You're not the one setting the\l"
+	.string "pace here.\p"
+	.string "Let's see if you still got it!$"
 
 EverGrandeCity_SidneysRoom_Text_MasterRankDefeat:
-	.string "Ha! You're still the real deal!$"
+	.string "Heh… Heheh! Unbelievable.\n"
+	.string "I gave it everything, and you\l"
+	.string "still came out on top!$"
 
 EverGrandeCity_SidneysRoom_Text_MasterRankPostBattleSpeech:
-	.string "The others won't go easy on\n"
-	.string "you either. Go on, get moving!$"
+	.string "Don't get comfortable.\n"
+	.string "I'm just the opening act.\p"
+	.string "PHOEBE's been up on MT. PYRE\n"
+	.string "for weeks. She came back…\l"
+	.string "different.\p"
+	.string "Go on.$"

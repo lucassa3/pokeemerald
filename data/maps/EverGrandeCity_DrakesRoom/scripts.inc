@@ -116,15 +116,21 @@ EverGrandeCity_DrakesRoom_Text_PostBattleSpeech:
 EverGrandeCity_DrakesRoom_Text_MasterRankIntroSpeech:
 	.string "Hah! So you made it through\n"
 	.string "the others again.\p"
+	.string "I took my dragons out past where\n"
+	.string "the charts end, into storms that\l"
+	.string "would sink any ship in HOENN.\p"
 	.string "A captain never sails the same sea\n"
 	.string "the same way twice.\p"
-	.string "My dragons have weathered storms\n"
-	.string "you can't imagine. Brace yourself!$"
+	.string "Last time, I asked if you knew\n"
+	.string "what it takes.\p"
+	.string "Today, I will see whether you\n"
+	.string "still have it. Brace yourself!$"
 
 EverGrandeCity_DrakesRoom_Text_MasterRankDefeat:
-	.string "Superb! You have the heart of a\n"
-	.string "true sailor!$"
+	.string "Superb! The storms taught me much,\n"
+	.string "but you have taught me more.$"
 
 EverGrandeCity_DrakesRoom_Text_MasterRankPostBattleSpeech:
-	.string "Go on. The CHAMPION is waiting.\p"
-	.string "…And I think you'll be surprised.$"
+	.string "A virtuous heart, and partners\n"
+	.string "who trust it. You still have both.\p"
+	.string "Go on. The CHAMPION is waiting.$"

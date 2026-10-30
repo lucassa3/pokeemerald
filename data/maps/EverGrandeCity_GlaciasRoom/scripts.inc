@@ -111,19 +111,27 @@ EverGrandeCity_GlaciasRoom_Text_PostBattleSpeech:
 
 EverGrandeCity_GlaciasRoom_Text_MasterRankIntroSpeech:
 	.string "Welcome back, challenger.\p"
-	.string "One opponent at a time was never\n"
-	.string "enough to test you, was it?\p"
-	.string "So in MASTER RANK, I shall face you\n"
-	.string "with two POKéMON at once.\p"
-	.string "Let us see if your passion can melt\n"
-	.string "a double blizzard!$"
+	.string "When you defeated me, I felt\n"
+	.string "something I hadn't in a long time.\l"
+	.string "Embarrassment.\p"
+	.string "So I returned to the frozen north\n"
+	.string "and trained in the old style,\l"
+	.string "two POKéMON side by side.\p"
+	.string "In MASTER RANK, you shall face\n"
+	.string "both at once.\p"
+	.string "Let us see if your fire can melt\n"
+	.string "a blizzard twice as cold!$"
 
 EverGrandeCity_GlaciasRoom_Text_MasterRankDefeat:
-	.string "Your passion… It truly burns hot.$"
+	.string "Your passion…\n"
+	.string "Even a double blizzard could not\l"
+	.string "put it out.$"
 
 EverGrandeCity_GlaciasRoom_Text_MasterRankPostBattleSpeech:
-	.string "DRAKE is waiting. He has been\n"
-	.string "unbearably eager.$"
+	.string "DRAKE has spent this whole time\n"
+	.string "out at sea. He speaks of nothing\l"
+	.string "but this battle.\p"
+	.string "Do not keep an old sailor waiting.$"
 
 EverGrandeCity_GlaciasRoom_Text_MasterRankNeedTwoMons:
 	.string "In MASTER RANK, I battle with\n"

@@ -1229,8 +1229,6 @@ extern const u8 gText_DodrioBerryPicking[];
 extern const u8 gText_JoinGroup[];
 extern const u8 gText_BecomeLeader[];
 extern const u8 gText_NormalRank[];
-extern const u8 gText_KantoBlue[];
-extern const u8 gText_KantoRed[];
 extern const u8 gText_Bulbasaur[];
 extern const u8 gText_Charmander[];
 extern const u8 gText_Squirtle[];
