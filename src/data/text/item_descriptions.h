@@ -754,9 +754,9 @@ static const u8 sChoiceBandDesc[] = _(
     "only that move.");
 
 static const u8 sKingsRockDesc[] = _(
-    "A hold item that\n"
-    "may cause flinching\n"
-    "when the foe is hit.");
+    "May make the foe\n"
+    "flinch. Evolves\n"
+    "certain POKéMON.");
 
 static const u8 sSilverPowderDesc[] = _(
     "A hold item that\n"
