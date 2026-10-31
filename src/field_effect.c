@@ -23,6 +23,7 @@
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
+#include "tilesets.h"
 #include "trainer_pokemon_sprites.h"
 #include "trig.h"
 #include "util.h"
@@ -1007,6 +1008,65 @@ void MultiplyPaletteRGBComponents(u16 i, u8 r, u8 g, u8 b)
 // Sprite data for SpriteCB_PokeballGlow
 #define sEffectSpriteId data[0]
 
+// FireRed's Pokémon Centers (gTileset_FrlgBuilding, ported by porting/frlg_tilesets.py) have FireRed's healing
+// machine: its monitor is a single 32x16 sprite with four frames, a little further right than Emerald's.
+static const u32 sFrlgPokecenterMonitor_Gfx[] = INCGFX_U32("graphics/field_effects/pics/frlg_pokecenter_monitor.png", ".4bpp");
+static const u16 sFrlgPokecenterMonitor_Pal[16] = INCGFX_U16("graphics/field_effects/palettes/frlg_pokecenter_monitor.pal", ".gbapal");
+
+static const struct SpritePalette sSpritePalette_FrlgPokecenterMonitor =
+{
+    .data = sFrlgPokecenterMonitor_Pal,
+    .tag = FLDEFF_PAL_TAG_FRLG_POKECENTER_MONITOR,
+};
+
+static const struct SpriteFrameImage sPicTable_FrlgPokecenterMonitor[] =
+{
+    {sFrlgPokecenterMonitor_Gfx + 0x00, 0x100},
+    {sFrlgPokecenterMonitor_Gfx + 0x40, 0x100},
+    {sFrlgPokecenterMonitor_Gfx + 0x80, 0x100},
+    {sFrlgPokecenterMonitor_Gfx + 0xC0, 0x100},
+};
+
+static const union AnimCmd sAnim_FrlgPokecenterMonitor_Static[] =
+{
+    ANIMCMD_FRAME(0, 1),
+    ANIMCMD_JUMP(0)
+};
+
+static const union AnimCmd sAnim_FrlgPokecenterMonitor_Flicker[] =
+{
+    ANIMCMD_FRAME(1, 5),
+    ANIMCMD_FRAME(2, 5),
+    ANIMCMD_FRAME(3, 7),
+    ANIMCMD_FRAME(2, 5),
+    ANIMCMD_FRAME(1, 5),
+    ANIMCMD_FRAME(0, 5),
+    ANIMCMD_LOOP(3),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sAnims_FrlgPokecenterMonitor[] =
+{
+    sAnim_FrlgPokecenterMonitor_Static,
+    sAnim_FrlgPokecenterMonitor_Flicker,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_FrlgPokecenterMonitor =
+{
+    .tileTag = TAG_NONE,
+    .paletteTag = FLDEFF_PAL_TAG_FRLG_POKECENTER_MONITOR,
+    .oam = &sOam_32x16,
+    .anims = sAnims_FrlgPokecenterMonitor,
+    .images = sPicTable_FrlgPokecenterMonitor,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_PokecenterMonitor
+};
+
+static bool32 IsFrlgPokemonCenter(void)
+{
+    return gMapHeader.mapLayout->primaryTileset == &gTileset_FrlgBuilding;
+}
+
 bool8 FldEff_PokecenterHeal(void)
 {
     u8 nPokemon;
@@ -1017,7 +1077,7 @@ bool8 FldEff_PokecenterHeal(void)
     task->tNumMons = nPokemon;
     task->tFirstBallX = 93;
     task->tFirstBallY = 36;
-    task->tMonitorX = 124;
+    task->tMonitorX = IsFrlgPokemonCenter() ? 128 : 124;
     task->tMonitorY = 24;
     return FALSE;
 }
@@ -1264,6 +1324,17 @@ static u8 CreatePokecenterMonitorSprite(s16 x, s16 y)
 {
     u8 spriteId;
     struct Sprite *sprite;
+
+    if (IsFrlgPokemonCenter())
+    {
+        LoadSpritePalette(&sSpritePalette_FrlgPokecenterMonitor);
+        UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(FLDEFF_PAL_TAG_FRLG_POKECENTER_MONITOR));
+        spriteId = CreateSpriteAtEnd(&sSpriteTemplate_FrlgPokecenterMonitor, x, y, 0);
+        sprite = &gSprites[spriteId];
+        sprite->oam.priority = 2;
+        sprite->invisible = TRUE;
+        return spriteId;
+    }
     spriteId = CreateSpriteAtEnd(&sSpriteTemplate_PokecenterMonitor, x, y, 0);
     sprite = &gSprites[spriteId];
     sprite->oam.priority = 2;

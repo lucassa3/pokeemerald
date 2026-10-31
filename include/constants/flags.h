@@ -45,15 +45,15 @@
 
 #define FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE_MASTER_RANK 0x20
 #define FLAG_RECEIVED_MASTER_BALL_FROM_STEVEN 0x21
-#define FLAG_KANTO_EXHIBITION_UNLOCKED 0x22 // Set by Scott's call after Master Rank is cleared
-#define FLAG_HIDE_LEAGUE_CHALLENGE_ATTENDANT 0x23
+#define FLAG_UNUSED_0x022    0x22 // Was FLAG_KANTO_EXHIBITION_UNLOCKED: already set on some saves
+#define FLAG_HIDE_LILYCOVE_CITY_SCOTT 0x23 // Scott waiting by the harbor to take the player to Kanto
 #define FLAG_RECEIVED_KANTO_STARTER 0x24 // Gift from Blue after the first Kanto Exhibition win against him
 #define FLAG_HIDE_MT_PYRE_SUMMIT_RED 0x25
 #define FLAG_RECEIVED_RIVAL_STARTER_EGG 0x26 // Egg of the rival's Hoenn starter, after the National Dex upgrade
 #define FLAG_RECEIVED_BIRCH_HOENN_STARTER 0x27 // Birch's leftover Hoenn starter, after the National Dex upgrade
-#define FLAG_UNUSED_0x028    0x28 // Unused Flag
-#define FLAG_UNUSED_0x029    0x29 // Unused Flag
-#define FLAG_UNUSED_0x02A    0x2A // Unused Flag
+#define FLAG_KANTO_LEAGUE_INVITED 0x28 // Scott's call after Master Rank: Kanto's Pokémon League invites the player
+#define FLAG_HIDE_KANTO_CHAMPIONS_ROOM_OAK 0x29
+#define FLAG_KANTO_HALL_OF_FAME 0x2A // Set from Kanto's Champion room to Ever Grande's Hall of Fame: Prof. Oak takes the champion's place
 #define FLAG_UNUSED_0x02B    0x2B // Unused Flag
 #define FLAG_UNUSED_0x02C    0x2C // Unused Flag
 #define FLAG_UNUSED_0x02D    0x2D // Unused Flag
@@ -656,14 +656,14 @@
 #define FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY                (FLAG_HIDDEN_ITEMS_START + 0x6E)
 #define FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL                 (FLAG_HIDDEN_ITEMS_START + 0x6F)
 
-#define FLAG_UNUSED_0x264  0x264 // Unused Flag
-#define FLAG_UNUSED_0x265  0x265 // Unused Flag
-#define FLAG_UNUSED_0x266  0x266 // Unused Flag
-#define FLAG_UNUSED_0x267  0x267 // Unused Flag
-#define FLAG_UNUSED_0x268  0x268 // Unused Flag
-#define FLAG_UNUSED_0x269  0x269 // Unused Flag
-#define FLAG_UNUSED_0x26A  0x26A // Unused Flag
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
+#define FLAG_HIDDEN_ITEM_ROUTE_23_FULL_RESTORE 0x264 // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_ULTRA_BALL 0x265 // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_MAX_ETHER 0x266 // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_LUM_BERRY 0x267 // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_SITRUS_BERRY 0x268 // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_ASPEAR_BERRY 0x269 // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_LEPPA_BERRY 0x26A // Route 23 (Kanto), FireRed hidden item
+#define FLAG_HIDDEN_ITEM_ROUTE_23_MAX_ELIXIR 0x26B // Route 23 (Kanto), FireRed hidden item
 #define FLAG_UNUSED_0x26C  0x26C // Unused Flag
 #define FLAG_UNUSED_0x26D  0x26D // Unused Flag
 #define FLAG_UNUSED_0x26E  0x26E // Unused Flag

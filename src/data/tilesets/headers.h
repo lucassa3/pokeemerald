@@ -825,3 +825,58 @@ const struct Tileset gTileset_UnionRoom =
     .metatileAttributes = gMetatileAttributes_UnionRoom,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_FrlgGeneral =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_FrlgGeneral,
+    .palettes = gTilesetPalettes_FrlgGeneral,
+    .metatiles = gMetatiles_FrlgGeneral,
+    .metatileAttributes = gMetatileAttributes_FrlgGeneral,
+    .callback = InitTilesetAnim_FrlgGeneral,
+};
+
+const struct Tileset gTileset_FrlgIndigoPlateau =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_FrlgIndigoPlateau,
+    .palettes = gTilesetPalettes_FrlgIndigoPlateau,
+    .metatiles = gMetatiles_FrlgIndigoPlateau,
+    .metatileAttributes = gMetatileAttributes_FrlgIndigoPlateau,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_FrlgBuilding =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_FrlgBuilding,
+    .palettes = gTilesetPalettes_FrlgBuilding,
+    .metatiles = gMetatiles_FrlgBuilding,
+    .metatileAttributes = gMetatileAttributes_FrlgBuilding,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_FrlgPokemonCenter =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_FrlgPokemonCenter,
+    .palettes = gTilesetPalettes_FrlgPokemonCenter,
+    .metatiles = gMetatiles_FrlgPokemonCenter,
+    .metatileAttributes = gMetatileAttributes_FrlgPokemonCenter,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_FrlgPokemonLeague =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_FrlgPokemonLeague,
+    .palettes = gTilesetPalettes_FrlgPokemonLeague,
+    .metatiles = gMetatiles_FrlgPokemonLeague,
+    .metatileAttributes = gMetatileAttributes_FrlgPokemonLeague,
+    .callback = NULL,
+};

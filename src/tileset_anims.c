@@ -1186,3 +1186,90 @@ static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
             sSecondaryTilesetAnimCallback = NULL;
     }
 }
+
+// FireRed/LeafGreen General tileset (gTileset_FrlgGeneral), ported as is from pokefirered
+const u16 gTilesetAnims_FrlgGeneral_Flower_Frame0[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/flower/0.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_Flower_Frame1[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/flower/1.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_Flower_Frame2[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/flower/2.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_Flower_Frame3[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/flower/3.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_Flower_Frame4[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/flower/4.png", ".4bpp");
+
+const u16 *const gTilesetAnims_FrlgGeneral_Flower[] = {
+    gTilesetAnims_FrlgGeneral_Flower_Frame0,
+    gTilesetAnims_FrlgGeneral_Flower_Frame1,
+    gTilesetAnims_FrlgGeneral_Flower_Frame2,
+    gTilesetAnims_FrlgGeneral_Flower_Frame3,
+    gTilesetAnims_FrlgGeneral_Flower_Frame4
+};
+
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame0[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/0.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame1[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/1.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame2[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/2.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame3[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/3.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame4[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/4.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame5[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/5.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame6[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/6.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_WaterCurrent_Frame7[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/7.png", ".4bpp");
+
+const u16 *const gTilesetAnims_FrlgGeneral_WaterCurrent[] = {
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame0,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame1,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame2,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame3,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame4,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame5,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame6,
+    gTilesetAnims_FrlgGeneral_WaterCurrent_Frame7
+};
+
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame0[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/0.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame1[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/1.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame2[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/2.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame3[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/3.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame4[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/4.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame5[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/5.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame6[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/6.png", ".4bpp");
+const u16 gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame7[] = INCGFX_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/7.png", ".4bpp");
+
+const u16 *const gTilesetAnims_FrlgGeneral_SandWaterEdge[] = {
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame0,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame1,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame2,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame3,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame4,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame5,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame6,
+    gTilesetAnims_FrlgGeneral_SandWaterEdge_Frame7
+};
+
+static void QueueAnimTiles_FrlgGeneral_Flower(u16 timer)
+{
+    AppendTilesetAnimToBuffer(gTilesetAnims_FrlgGeneral_Flower[timer % ARRAY_COUNT(gTilesetAnims_FrlgGeneral_Flower)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(508)), 4 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_FrlgGeneral_WaterCurrent(u16 timer)
+{
+    AppendTilesetAnimToBuffer(gTilesetAnims_FrlgGeneral_WaterCurrent[timer % ARRAY_COUNT(gTilesetAnims_FrlgGeneral_WaterCurrent)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(416)), 48 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_FrlgGeneral_SandWaterEdge(u16 timer)
+{
+    AppendTilesetAnimToBuffer(gTilesetAnims_FrlgGeneral_SandWaterEdge[timer % ARRAY_COUNT(gTilesetAnims_FrlgGeneral_SandWaterEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(464)), 18 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FrlgGeneral(u16 timer)
+{
+    if (timer % 8 == 0)
+        QueueAnimTiles_FrlgGeneral_SandWaterEdge(timer / 8);
+    if (timer % 16 == 1)
+        QueueAnimTiles_FrlgGeneral_WaterCurrent(timer / 16);
+    if (timer % 16 == 2)
+        QueueAnimTiles_FrlgGeneral_Flower(timer / 16);
+}
+
+void InitTilesetAnim_FrlgGeneral(void)
+{
+    sPrimaryTilesetAnimCounter = 0;
+    sPrimaryTilesetAnimCounterMax = 640;
+    sPrimaryTilesetAnimCallback = TilesetAnim_FrlgGeneral;
+}

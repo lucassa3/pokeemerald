@@ -542,3 +542,4 @@ gSpecials::
 	def_special TrySetBattleTowerLinkType
 	def_special IsGymLeaderRematchChainComplete
 	def_special GetMonsStateToDoubles
+	def_special DoPokemonLeagueLightingEffect

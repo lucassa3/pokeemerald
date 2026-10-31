@@ -42,6 +42,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
+#include "tilesets.h"
 #include "text.h"
 #include "tv.h"
 #include "wallclock.h"
@@ -65,6 +66,7 @@
 #include "constants/battle_frontier.h"
 #include "constants/weather.h"
 #include "constants/metatile_labels.h"
+#include "constants/rgb.h"
 #include "palette.h"
 
 #define TAG_ITEM_ICON 5500
@@ -470,10 +472,10 @@ bool32 ShouldDoWallyMasterRankCall(void)
     }
 }
 
-// Scott calls about the Kanto Exhibition the first time the player is outdoors after clearing Master Rank
-bool32 ShouldDoScottKantoExhibitionCall(void)
+// Scott calls with Kanto's Pokémon League invitation the first time the player is outdoors after clearing Master Rank
+bool32 ShouldDoScottKantoLeagueCall(void)
 {
-    if (VarGet(VAR_MASTER_RANK_STATE) != MASTER_RANK_CLEARED || FlagGet(FLAG_KANTO_EXHIBITION_UNLOCKED) || !FlagGet(FLAG_HAS_MATCH_CALL))
+    if (VarGet(VAR_MASTER_RANK_STATE) != MASTER_RANK_CLEARED || FlagGet(FLAG_KANTO_LEAGUE_INVITED) || !FlagGet(FLAG_HAS_MATCH_CALL))
         return FALSE;
 
     switch (gMapHeader.mapType)
@@ -1081,6 +1083,17 @@ static void PCTurnOnEffect(struct Task *task)
     task->tTimer++;
 }
 
+// FireRed's Building tileset (gTileset_FrlgBuilding) keeps FireRed's metatile IDs, where Emerald's PC IDs are floor
+#define METATILE_FrlgBuilding_PC_Off 0x062
+#define METATILE_FrlgBuilding_PC_On  0x063
+
+static u16 GetBuildingPCMetatileId(bool32 screenOn)
+{
+    if (gMapHeader.mapLayout->primaryTileset == &gTileset_FrlgBuilding)
+        return screenOn ? METATILE_FrlgBuilding_PC_On : METATILE_FrlgBuilding_PC_Off;
+    return screenOn ? METATILE_Building_PC_On : METATILE_Building_PC_Off;
+}
+
 static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
 {
     u16 metatileId = 0;
@@ -1088,7 +1101,7 @@ static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
     {
         // Screen is on, set it off
         if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = METATILE_Building_PC_Off;
+            metatileId = GetBuildingPCMetatileId(FALSE);
         else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
@@ -1098,7 +1111,7 @@ static void PCTurnOnEffect_SetMetatile(s16 isScreenOn, s8 dx, s8 dy)
     {
         // Screen is off, set it on
         if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-            metatileId = METATILE_Building_PC_On;
+            metatileId = GetBuildingPCMetatileId(TRUE);
         else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
             metatileId = METATILE_BrendansMaysHouse_BrendanPC_On;
         else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
@@ -1138,7 +1151,7 @@ static void PCTurnOffEffect(void)
     }
 
     if (gSpecialVar_0x8004 == PC_LOCATION_OTHER)
-        metatileId = METATILE_Building_PC_Off;
+        metatileId = GetBuildingPCMetatileId(FALSE);
     else if (gSpecialVar_0x8004 == PC_LOCATION_BRENDANS_HOUSE)
         metatileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
     else if (gSpecialVar_0x8004 == PC_LOCATION_MAYS_HOUSE)
@@ -4305,4 +4318,120 @@ void SetPlayerGotFirstFans(void)
 u8 Script_TryGainNewFanFromCounter(void)
 {
     return TryGainNewFanFromCounter(gSpecialVar_0x8004);
+}
+
+// Kanto's Pokémon League rooms (ported from FireRed): the lights flicker through background palette 7 until the room's
+// trainer is battled (FLAG_TEMP_2: entered the room, FLAG_TEMP_3: battle started, FLAG_TEMP_4: door opened,
+// FLAG_TEMP_5: in battle), then settle on the final palette once the door opens. Started by the rooms' ON_RESUME scripts.
+static const u16 sEliteFourLightingPalettes[][16] = {
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_0.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_1.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_2.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_3.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_4.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_5.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_6.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_7.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_8.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_9.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_10.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_elite_four_lighting_11.pal", ".gbapal"),
+};
+
+static const u16 sChampionRoomLightingPalettes[][16] = {
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_0.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_1.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_2.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_3.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_4.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_5.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_6.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_7.pal", ".gbapal"),
+    INCGFX_U16("graphics/field_specials/frlg_champion_room_lighting_8.pal", ".gbapal"),
+};
+
+static const u8 sEliteFourLightingTimers[] = {40, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12};
+static const u8 sChampionRoomLightingTimers[] = {20, 8, 8, 8, 8, 8, 8, 8};
+
+static void Task_RunPokemonLeagueLightingEffect(u8 taskId);
+static void Task_CancelPokemonLeagueLightingEffect(u8 taskId);
+
+static bool32 InKantoChampionsRoom(void)
+{
+    return gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_POKEMON_LEAGUE_CHAMPIONS_ROOM)
+        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_POKEMON_LEAGUE_CHAMPIONS_ROOM);
+}
+
+void DoPokemonLeagueLightingEffect(void)
+{
+    u8 taskId;
+    s16 *data;
+
+    // ON_RESUME runs again after every battle or menu: keep a single task
+    if (FuncIsActiveTask(Task_RunPokemonLeagueLightingEffect) == TRUE)
+        DestroyTask(FindTaskIdByFunc(Task_RunPokemonLeagueLightingEffect));
+    if (FuncIsActiveTask(Task_CancelPokemonLeagueLightingEffect) == TRUE)
+        DestroyTask(FindTaskIdByFunc(Task_CancelPokemonLeagueLightingEffect));
+
+    taskId = CreateTask(Task_RunPokemonLeagueLightingEffect, 8);
+    data = gTasks[taskId].data;
+    if (FlagGet(FLAG_TEMP_3) == TRUE)
+    {
+        gTasks[taskId].func = Task_CancelPokemonLeagueLightingEffect;
+    }
+    else
+    {
+        if (InKantoChampionsRoom())
+        {
+            data[0] = sChampionRoomLightingTimers[0];
+            data[2] = ARRAY_COUNT(sChampionRoomLightingTimers);
+            LoadPalette(sChampionRoomLightingPalettes[0], BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        }
+        else
+        {
+            data[0] = sEliteFourLightingTimers[0];
+            data[2] = ARRAY_COUNT(sEliteFourLightingTimers);
+            LoadPalette(sEliteFourLightingPalettes[0], BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        }
+        data[1] = 0;
+    }
+}
+
+static void Task_RunPokemonLeagueLightingEffect(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    if (!gPaletteFade.active
+     && FlagGet(FLAG_TEMP_2)
+     && !FlagGet(FLAG_TEMP_5)
+     && --data[0] == 0)
+    {
+        if (++data[1] == data[2])
+            data[1] = 0;
+
+        if (InKantoChampionsRoom())
+        {
+            data[0] = sChampionRoomLightingTimers[data[1]];
+            LoadPalette(sChampionRoomLightingPalettes[data[1]], BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        }
+        else
+        {
+            data[0] = sEliteFourLightingTimers[data[1]];
+            LoadPalette(sEliteFourLightingPalettes[data[1]], BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        }
+    }
+}
+
+static void Task_CancelPokemonLeagueLightingEffect(u8 taskId)
+{
+    if (FlagGet(FLAG_TEMP_4))
+    {
+        if (InKantoChampionsRoom())
+            LoadPalette(sChampionRoomLightingPalettes[ARRAY_COUNT(sChampionRoomLightingPalettes) - 1], BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        else
+            LoadPalette(sEliteFourLightingPalettes[ARRAY_COUNT(sEliteFourLightingPalettes) - 1], BG_PLTT_ID(7), PLTT_SIZE_4BPP);
+        if (gPaletteFade.active)
+            BlendPalettes(1 << 7, 16, RGB_BLACK);
+        DestroyTask(taskId);
+    }
 }

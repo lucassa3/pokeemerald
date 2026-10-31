@@ -80,11 +80,10 @@ EverGrandeCity_HallOfFame_Movement_WalkIntoHallOfFame2:
 	walk_up
 	step_end
 
-@ Master Rank: Steven brings the player here in Wallace's place (data/scripts/master_rank.inc)
-@ Kanto Exhibition: Blue or Red speak instead (data/scripts/kanto_exhibition.inc)
+@ Master Rank: Steven brings the player here in Wallace's place (data/scripts/master_rank.inc).
+@ Kanto's League: Prof. Oak does (data/scripts/kanto_league.inc).
 EverGrandeCity_HallOfFame_EventScript_HereWeHonorLeagueChampions::
-	call KantoExhibition_EventScript_HallOfFameHereWeHonor
-	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	goto_if_set FLAG_KANTO_HALL_OF_FAME, EverGrandeCity_HallOfFame_EventScript_OakHereWeHonorLeagueChampions
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_HallOfFame_EventScript_StevenHereWeHonorLeagueChampions
 	msgbox EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions, MSGBOX_DEFAULT
 	return
@@ -94,14 +93,21 @@ EverGrandeCity_HallOfFame_EventScript_StevenHereWeHonorLeagueChampions::
 	return
 
 EverGrandeCity_HallOfFame_EventScript_LetsRecordYouAndYourPartnersNames::
-	call KantoExhibition_EventScript_HallOfFameLetsRecord
-	goto_if_eq VAR_RESULT, TRUE, Common_EventScript_NopReturn
+	goto_if_set FLAG_KANTO_HALL_OF_FAME, EverGrandeCity_HallOfFame_EventScript_OakLetsRecordYouAndYourPartnersNames
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_HallOfFame_EventScript_StevenLetsRecordYouAndYourPartnersNames
 	msgbox EverGrandeCity_HallOfFame_Text_LetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
 	return
 
 EverGrandeCity_HallOfFame_EventScript_StevenLetsRecordYouAndYourPartnersNames::
 	msgbox EverGrandeCity_HallOfFame_Text_StevenLetsRecordYouAndYourPartnersNames, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_HallOfFame_EventScript_OakHereWeHonorLeagueChampions::
+	msgbox KantoLeague_Text_OakHereWeHonor, MSGBOX_DEFAULT
+	return
+
+EverGrandeCity_HallOfFame_EventScript_OakLetsRecordYouAndYourPartnersNames::
+	msgbox KantoLeague_Text_OakLetsRecord, MSGBOX_DEFAULT
 	return
 
 EverGrandeCity_HallOfFame_Text_HereWeHonorLeagueChampions:

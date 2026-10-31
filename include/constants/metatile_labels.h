@@ -787,4 +787,15 @@
 #define METATILE_RSMossdeepGym_Switch_Down     0x239
 #define METATILE_RSMossdeepGym_Switch_Up       0x238
 
+// gTileset_FrlgPokemonLeague (FireRed's metatile IDs, unchanged by porting/frlg_tilesets.py)
+#define METATILE_FrlgPokemonLeague_Door_Top_Open             0x28E
+#define METATILE_FrlgPokemonLeague_Door_Mid_Open             0x296
+#define METATILE_FrlgPokemonLeague_Entry_TopLeft_Closed      0x29D
+#define METATILE_FrlgPokemonLeague_Entry_TopMid_Closed       0x29E
+#define METATILE_FrlgPokemonLeague_Entry_TopRight_Closed     0x29F
+#define METATILE_FrlgPokemonLeague_Entry_BottomLeft_Closed   0x2A5
+#define METATILE_FrlgPokemonLeague_Entry_BottomMid_Closed    0x2A6
+#define METATILE_FrlgPokemonLeague_Entry_BottomRight_Closed  0x2A7
+#define METATILE_FrlgPokemonLeague_Floor_ShadeFull_Lance     0x311
+
 #endif // GUARD_METATILE_LABELS_H

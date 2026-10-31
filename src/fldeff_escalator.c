@@ -4,6 +4,7 @@
 #include "fieldmap.h"
 #include "fldeff.h"
 #include "task.h"
+#include "tilesets.h"
 #include "constants/metatile_labels.h"
 
 static EWRAM_DATA u8 sEscalatorAnim_TaskId = 0;
@@ -55,6 +56,35 @@ static const s16 sEscalatorMetatiles_2F_2[ESCALATOR_STAGES] = {
     METATILE_PokemonCenter_Escalator2F_Tile2_Frame1,
     METATILE_PokemonCenter_Escalator2F_Tile2_Frame2
 };
+
+// FireRed's Pokémon Center escalators (gTileset_FrlgPokemonCenter, ported by porting/frlg_tilesets.py). Same
+// sections and stages as Emerald's above, in the same order, with FireRed's metatile IDs.
+static const s16 sFrlgEscalatorMetatiles[7][ESCALATOR_STAGES] = {
+    {0x308, 0x30A, 0x2D0}, // Bottom next rail
+    {0x309, 0x30B, 0x2D1}, // Bottom rail
+    {0x310, 0x312, 0x2D8}, // Bottom next
+    {0x311, 0x313, 0x2D9}, // Bottom
+    {0x2E3, 0x316, 0x314}, // Top next
+    {0x2E4, 0x317, 0x315}, // Top
+    {0x2EB, 0x31E, 0x31C}, // Top next rail
+};
+
+static const s16 *const sEscalatorMetatiles[7] = {
+    sEscalatorMetatiles_1F_0,
+    sEscalatorMetatiles_1F_1,
+    sEscalatorMetatiles_1F_2,
+    sEscalatorMetatiles_1F_3,
+    sEscalatorMetatiles_2F_0,
+    sEscalatorMetatiles_2F_1,
+    sEscalatorMetatiles_2F_2,
+};
+
+static const s16 *GetEscalatorMetatiles(u8 section)
+{
+    if (gMapHeader.mapLayout->primaryTileset == &gTileset_FrlgBuilding)
+        return sFrlgEscalatorMetatiles[section];
+    return sEscalatorMetatiles[section];
+}
 
 #define tState            data[0]
 #define tTransitionStage  data[1]
@@ -120,25 +150,25 @@ static void Task_DrawEscalator(u8 taskId)
     switch (tState)
     {
         case 0:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_1F_0, 0);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(0), 0);
             break;
         case 1:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_1F_1, 0);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(1), 0);
             break;
         case 2:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_1F_2, MAPGRID_IMPASSABLE);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(2), MAPGRID_IMPASSABLE);
             break;
         case 3:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_1F_3, 0);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(3), 0);
             break;
         case 4:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_2F_0, MAPGRID_IMPASSABLE);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(4), MAPGRID_IMPASSABLE);
             break;
         case 5:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_2F_1, 0);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(5), 0);
             break;
         case 6:
-            SetEscalatorMetatile(taskId, sEscalatorMetatiles_2F_2, 0);
+            SetEscalatorMetatile(taskId, GetEscalatorMetatiles(6), 0);
             break;
     }
 

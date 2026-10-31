@@ -85,7 +85,7 @@
 #define OBJ_EVENT_GFX_AGATHA                     78 // Kanto Exhibition; was an unused doll
 #define OBJ_EVENT_GFX_LANCE                      79 // Kanto Exhibition; was an unused doll
 #define OBJ_EVENT_GFX_BLUE                       80 // Kanto Exhibition; was an unused doll
-#define OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL        81
+#define OBJ_EVENT_GFX_PROF_OAK                    81 // Was OBJ_EVENT_GFX_UNUSED_PORYGON2_DOLL
 #define OBJ_EVENT_GFX_CUTTABLE_TREE               82
 #define OBJ_EVENT_GFX_MART_EMPLOYEE               83
 #define OBJ_EVENT_GFX_ROOFTOP_SALE_WOMAN          84
