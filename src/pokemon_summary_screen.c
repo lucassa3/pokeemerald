@@ -120,6 +120,14 @@ enum
     SPRITE_ARR_ID_COUNT = SPRITE_ARR_ID_MOVE_SELECTOR2 + MOVE_SELECTOR_SPRITES_COUNT
 };
 
+// What the Skills page's stat columns show; SELECT cycles through them
+enum {
+    SKILLS_VIEW_STATS,
+    SKILLS_VIEW_IVS,
+    SKILLS_VIEW_EVS,
+    SKILLS_VIEW_COUNT,
+};
+
 #define TILE_EMPTY_APPEAL_HEART  0x1039
 #define TILE_FILLED_APPEAL_HEART 0x103A
 #define TILE_FILLED_JAM_HEART    0x103C
@@ -185,7 +193,8 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u8 spriteIds[SPRITE_ARR_ID_COUNT];
     bool8 handleDeoxys;
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or Pokémon data
-    u8 unk_filler4[6];
+    u8 skillsView; // SKILLS_VIEW_*, kept while changing Pokémon or page
+    u8 unk_filler4[5];
 } *sMonSummaryScreen = NULL;
 EWRAM_DATA u8 gLastViewedMonIndex = 0;
 static EWRAM_DATA u8 sMoveSlotToReplace = 0;
@@ -275,6 +284,8 @@ static void BufferLeftColumnStats(void);
 static void PrintLeftColumnStats(void);
 static void BufferRightColumnStats(void);
 static void PrintRightColumnStats(void);
+static void ToggleSkillsView(void);
+static void PrintSkillsPageTitle(void);
 static void PrintExpPointsNextLevel(void);
 static void PrintBattleMoves(void);
 static void Task_PrintBattleMoves(u8);
@@ -747,6 +758,9 @@ static const u8 sMemoNatureTextColor[] = _("{COLOR LIGHT_RED}{SHADOW GREEN}");
 static const u8 sMemoMiscTextColor[] = _("{COLOR WHITE}{SHADOW DARK_GRAY}"); // This is also affected by palettes, apparently
 static const u8 sStatsLeftColumnLayout[] = _("{DYNAMIC 0}/{DYNAMIC 1}\n{DYNAMIC 2}\n{DYNAMIC 3}");
 static const u8 sStatsRightColumnLayout[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
+static const u8 sStatsLeftColumnLayoutNoMaxHP[] = _("{DYNAMIC 0}\n{DYNAMIC 1}\n{DYNAMIC 2}");
+static const u8 sText_PkmnIVs[] = _("POKéMON IVs");
+static const u8 sText_PkmnEVs[] = _("POKéMON EVs");
 static const u8 sMovesPPLayout[] = _("{PP}{DYNAMIC 0}/{DYNAMIC 1}");
 
 #define TAG_MOVE_SELECTOR 30000
@@ -1571,6 +1585,11 @@ static void Task_HandleInput(u8 taskId)
             StopPokemonAnimations();
             PlaySE(SE_SELECT);
             BeginCloseSummaryScreen(taskId);
+        }
+        else if (JOY_NEW(SELECT_BUTTON) && sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
+        {
+            PlaySE(SE_SELECT);
+            ToggleSkillsView();
         }
     }
 }
@@ -2836,7 +2855,7 @@ static void PrintPageNamesAndStats(void)
     int statsXPos;
 
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, gText_PkmnInfo, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, gText_PkmnSkills, 2, 1, 0, 1);
+    PrintSkillsPageTitle();
     PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, gText_BattleMoves, 2, 1, 0, 1);
     PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, gText_ContestMoves, 2, 1, 0, 1);
 
@@ -3388,12 +3407,42 @@ static void PrintRibbonCount(void)
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_RIBBON_COUNT), text, x, 1, 0, 0);
 }
 
+// IVs (0-31) or EVs (0-255) in Gen 3 stat order, as the Skills page lists them: HP, Attack, Defense, Sp. Atk, Sp. Def, Speed
+static u8 GetSkillsViewValue(u8 stat)
+{
+    static const u8 sIVs[] = {MON_DATA_HP_IV, MON_DATA_ATK_IV, MON_DATA_DEF_IV, MON_DATA_SPATK_IV, MON_DATA_SPDEF_IV, MON_DATA_SPEED_IV};
+    static const u8 sEVs[] = {MON_DATA_HP_EV, MON_DATA_ATK_EV, MON_DATA_DEF_EV, MON_DATA_SPATK_EV, MON_DATA_SPDEF_EV, MON_DATA_SPEED_EV};
+
+    if (sMonSummaryScreen->skillsView == SKILLS_VIEW_IVS)
+        return GetMonData(&sMonSummaryScreen->currentMon, sIVs[stat]);
+    return GetMonData(&sMonSummaryScreen->currentMon, sEVs[stat]);
+}
+
 static void BufferLeftColumnStats(void)
 {
-    u8 *currentHPString = Alloc(8);
-    u8 *maxHPString = Alloc(8);
-    u8 *attackString = Alloc(8);
-    u8 *defenseString = Alloc(8);
+    u8 *currentHPString;
+    u8 *maxHPString;
+    u8 *attackString;
+    u8 *defenseString;
+
+    if (sMonSummaryScreen->skillsView != SKILLS_VIEW_STATS)
+    {
+        ConvertIntToDecimalStringN(gStringVar1, GetSkillsViewValue(0), STR_CONV_MODE_RIGHT_ALIGN, 7);
+        ConvertIntToDecimalStringN(gStringVar2, GetSkillsViewValue(1), STR_CONV_MODE_RIGHT_ALIGN, 7);
+        ConvertIntToDecimalStringN(gStringVar3, GetSkillsViewValue(2), STR_CONV_MODE_RIGHT_ALIGN, 7);
+
+        DynamicPlaceholderTextUtil_Reset();
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gStringVar2);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gStringVar3);
+        DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sStatsLeftColumnLayoutNoMaxHP);
+        return;
+    }
+
+    currentHPString = Alloc(8);
+    maxHPString = Alloc(8);
+    attackString = Alloc(8);
+    defenseString = Alloc(8);
 
     ConvertIntToDecimalStringN(currentHPString, sMonSummaryScreen->summary.currentHP, STR_CONV_MODE_RIGHT_ALIGN, 3);
     ConvertIntToDecimalStringN(maxHPString, sMonSummaryScreen->summary.maxHP, STR_CONV_MODE_RIGHT_ALIGN, 3);
@@ -3420,9 +3469,18 @@ static void PrintLeftColumnStats(void)
 
 static void BufferRightColumnStats(void)
 {
-    ConvertIntToDecimalStringN(gStringVar1, sMonSummaryScreen->summary.spatk, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    ConvertIntToDecimalStringN(gStringVar2, sMonSummaryScreen->summary.spdef, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    ConvertIntToDecimalStringN(gStringVar3, sMonSummaryScreen->summary.speed, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    if (sMonSummaryScreen->skillsView != SKILLS_VIEW_STATS)
+    {
+        ConvertIntToDecimalStringN(gStringVar1, GetSkillsViewValue(3), STR_CONV_MODE_RIGHT_ALIGN, 3);
+        ConvertIntToDecimalStringN(gStringVar2, GetSkillsViewValue(4), STR_CONV_MODE_RIGHT_ALIGN, 3);
+        ConvertIntToDecimalStringN(gStringVar3, GetSkillsViewValue(5), STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+    else
+    {
+        ConvertIntToDecimalStringN(gStringVar1, sMonSummaryScreen->summary.spatk, STR_CONV_MODE_RIGHT_ALIGN, 3);
+        ConvertIntToDecimalStringN(gStringVar2, sMonSummaryScreen->summary.spdef, STR_CONV_MODE_RIGHT_ALIGN, 3);
+        ConvertIntToDecimalStringN(gStringVar3, sMonSummaryScreen->summary.speed, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
 
     DynamicPlaceholderTextUtil_Reset();
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
@@ -3434,6 +3492,41 @@ static void BufferRightColumnStats(void)
 static void PrintRightColumnStats(void)
 {
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_STATS_RIGHT), gStringVar4, 2, 1, 0, 0);
+}
+
+static void PrintSkillsPageTitle(void)
+{
+    const u8 *title = gText_PkmnSkills;
+
+    if (sMonSummaryScreen->skillsView == SKILLS_VIEW_IVS)
+        title = sText_PkmnIVs;
+    else if (sMonSummaryScreen->skillsView == SKILLS_VIEW_EVS)
+        title = sText_PkmnEVs;
+
+    FillWindowPixelBuffer(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, PIXEL_FILL(0));
+    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, title, 2, 1, 0, 1);
+    CopyWindowToVram(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, COPYWIN_GFX);
+}
+
+// SELECT on the Skills page: stats -> IVs -> EVs
+static void ToggleSkillsView(void)
+{
+    u8 windowId;
+
+    sMonSummaryScreen->skillsView = (sMonSummaryScreen->skillsView + 1) % SKILLS_VIEW_COUNT;
+    PrintSkillsPageTitle();
+
+    windowId = AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_STATS_LEFT);
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    BufferLeftColumnStats();
+    PrintLeftColumnStats();
+    CopyWindowToVram(windowId, COPYWIN_GFX);
+
+    windowId = AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_STATS_RIGHT);
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    BufferRightColumnStats();
+    PrintRightColumnStats();
+    CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 
 static void PrintExpPointsNextLevel(void)
