@@ -6,7 +6,6 @@ EverGrandeCity_SidneysRoom_MapScripts::
 	.byte 0
 
 EverGrandeCity_SidneysRoom_OnTransition:
-	call KantoExhibition_EventScript_SetupSidneysRoomGfx
 	setflag FLAG_MET_SCOTT_IN_EVERGRANDE
 	setflag FLAG_HIDE_EVER_GRANDE_POKEMON_CENTER_1F_SCOTT
 	end
@@ -46,7 +45,6 @@ EverGrandeCity_SidneysRoom_EventScript_WalkInCloseDoor::
 EverGrandeCity_SidneysRoom_EventScript_Sidney::
 	lock
 	faceplayer
-	goto_if_ne VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK, KantoExhibition_EventScript_Lorelei
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_SidneysRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_SIDNEY, EverGrandeCity_SidneysRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE

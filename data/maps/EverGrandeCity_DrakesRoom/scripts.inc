@@ -1,5 +1,4 @@
 EverGrandeCity_DrakesRoom_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, KantoExhibition_EventScript_SetupDrakesRoomGfx
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_DrakesRoom_OnFrame
 	map_script MAP_SCRIPT_ON_LOAD, EverGrandeCity_DrakesRoom_OnLoad
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_SidneysRoom_OnWarp
@@ -41,7 +40,6 @@ EverGrandeCity_DrakesRoom_EventScript_CloseDoor::
 EverGrandeCity_DrakesRoom_EventScript_Drake::
 	lock
 	faceplayer
-	goto_if_ne VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK, KantoExhibition_EventScript_Lance
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_DrakesRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_DRAKE, EverGrandeCity_DrakesRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE

@@ -4410,6 +4410,96 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_ROUTE23",
+      "name": "Route23_Layout",
+      "width": 24,
+      "height": 160,
+      "primary_tileset": "gTileset_FrlgGeneral",
+      "secondary_tileset": "gTileset_FrlgIndigoPlateau",
+      "border_filepath": "data/layouts/Route23/border.bin",
+      "blockdata_filepath": "data/layouts/Route23/map.bin"
+    },
+    {
+      "id": "LAYOUT_INDIGO_PLATEAU_EXTERIOR",
+      "name": "IndigoPlateau_Exterior_Layout",
+      "width": 24,
+      "height": 20,
+      "primary_tileset": "gTileset_FrlgGeneral",
+      "secondary_tileset": "gTileset_FrlgIndigoPlateau",
+      "border_filepath": "data/layouts/IndigoPlateau_Exterior/border.bin",
+      "blockdata_filepath": "data/layouts/IndigoPlateau_Exterior/map.bin"
+    },
+    {
+      "id": "LAYOUT_INDIGO_PLATEAU_POKEMON_CENTER_1F",
+      "name": "IndigoPlateau_PokemonCenter_1F_Layout",
+      "width": 25,
+      "height": 18,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonCenter",
+      "border_filepath": "data/layouts/IndigoPlateau_PokemonCenter_1F/border.bin",
+      "blockdata_filepath": "data/layouts/IndigoPlateau_PokemonCenter_1F/map.bin"
+    },
+    {
+      "id": "LAYOUT_FRLG_POKEMON_CENTER_2F",
+      "name": "FrlgPokemonCenter_2F_Layout",
+      "width": 15,
+      "height": 10,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonCenter",
+      "border_filepath": "data/layouts/FrlgPokemonCenter_2F/border.bin",
+      "blockdata_filepath": "data/layouts/FrlgPokemonCenter_2F/map.bin"
+    },
+    {
+      "id": "LAYOUT_POKEMON_LEAGUE_LORELEIS_ROOM",
+      "name": "PokemonLeague_LoreleisRoom_Layout",
+      "width": 13,
+      "height": 13,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonLeague",
+      "border_filepath": "data/layouts/PokemonLeague_LoreleisRoom/border.bin",
+      "blockdata_filepath": "data/layouts/PokemonLeague_LoreleisRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_POKEMON_LEAGUE_BRUNOS_ROOM",
+      "name": "PokemonLeague_BrunosRoom_Layout",
+      "width": 13,
+      "height": 13,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonLeague",
+      "border_filepath": "data/layouts/PokemonLeague_BrunosRoom/border.bin",
+      "blockdata_filepath": "data/layouts/PokemonLeague_BrunosRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_POKEMON_LEAGUE_AGATHAS_ROOM",
+      "name": "PokemonLeague_AgathasRoom_Layout",
+      "width": 13,
+      "height": 13,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonLeague",
+      "border_filepath": "data/layouts/PokemonLeague_AgathasRoom/border.bin",
+      "blockdata_filepath": "data/layouts/PokemonLeague_AgathasRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_POKEMON_LEAGUE_LANCES_ROOM",
+      "name": "PokemonLeague_LancesRoom_Layout",
+      "width": 28,
+      "height": 24,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonLeague",
+      "border_filepath": "data/layouts/PokemonLeague_LancesRoom/border.bin",
+      "blockdata_filepath": "data/layouts/PokemonLeague_LancesRoom/map.bin"
+    },
+    {
+      "id": "LAYOUT_POKEMON_LEAGUE_CHAMPIONS_ROOM",
+      "name": "PokemonLeague_ChampionsRoom_Layout",
+      "width": 13,
+      "height": 20,
+      "primary_tileset": "gTileset_FrlgBuilding",
+      "secondary_tileset": "gTileset_FrlgPokemonLeague",
+      "border_filepath": "data/layouts/PokemonLeague_ChampionsRoom/border.bin",
+      "blockdata_filepath": "data/layouts/PokemonLeague_ChampionsRoom/map.bin"
     }
   ]
 }

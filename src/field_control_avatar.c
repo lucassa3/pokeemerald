@@ -597,9 +597,9 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
             ScriptContext_SetupScript(MasterRank_EventScript_WallyCall);
             return TRUE;
         }
-        if (ShouldDoScottKantoExhibitionCall() == TRUE)
+        if (ShouldDoScottKantoLeagueCall() == TRUE)
         {
-            ScriptContext_SetupScript(KantoExhibition_EventScript_ScottCall);
+            ScriptContext_SetupScript(KantoLeague_EventScript_ScottCall);
             return TRUE;
         }
     }

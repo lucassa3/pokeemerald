@@ -207,3 +207,18 @@ const u16 gMetatileAttributes_MysteryEventsHouse[] = INCBIN_U16("data/tilesets/s
 
 const u16 gMetatiles_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatiles.bin");
 const u16 gMetatileAttributes_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatile_attributes.bin");
+
+const u16 gMetatiles_FrlgGeneral[] = INCBIN_U16("data/tilesets/primary/frlg_general/metatiles.bin");
+const u16 gMetatileAttributes_FrlgGeneral[] = INCBIN_U16("data/tilesets/primary/frlg_general/metatile_attributes.bin");
+
+const u16 gMetatiles_FrlgIndigoPlateau[] = INCBIN_U16("data/tilesets/secondary/frlg_indigo_plateau/metatiles.bin");
+const u16 gMetatileAttributes_FrlgIndigoPlateau[] = INCBIN_U16("data/tilesets/secondary/frlg_indigo_plateau/metatile_attributes.bin");
+
+const u16 gMetatiles_FrlgBuilding[] = INCBIN_U16("data/tilesets/primary/frlg_building/metatiles.bin");
+const u16 gMetatileAttributes_FrlgBuilding[] = INCBIN_U16("data/tilesets/primary/frlg_building/metatile_attributes.bin");
+
+const u16 gMetatiles_FrlgPokemonCenter[] = INCBIN_U16("data/tilesets/secondary/frlg_pokemon_center/metatiles.bin");
+const u16 gMetatileAttributes_FrlgPokemonCenter[] = INCBIN_U16("data/tilesets/secondary/frlg_pokemon_center/metatile_attributes.bin");
+
+const u16 gMetatiles_FrlgPokemonLeague[] = INCBIN_U16("data/tilesets/secondary/frlg_pokemon_league/metatiles.bin");
+const u16 gMetatileAttributes_FrlgPokemonLeague[] = INCBIN_U16("data/tilesets/secondary/frlg_pokemon_league/metatile_attributes.bin");

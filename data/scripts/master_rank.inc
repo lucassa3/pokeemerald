@@ -31,12 +31,14 @@ MasterRank_Text_WallyCall:
 	.string "… … … … … Click!$"
 
 @ The Champion's room and Hall of Fame show their champion with VAR_OBJ_GFX_ID_1: Wallace, or Steven in Master Rank,
-@ or Blue in the Kanto Exhibition (data/scripts/kanto_exhibition.inc)
+@ or Prof. Oak after Kanto's League (data/scripts/kanto_league.inc)
 MasterRank_EventScript_SetupChampionGfxId::
+	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_PROF_OAK
+	goto_if_set FLAG_KANTO_HALL_OF_FAME, Common_EventScript_NopReturn
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_WALLACE
 	goto_if_eq VAR_MASTER_RANK_STATE, MASTER_RANK_LOCKED, Common_EventScript_NopReturn
 	setvar VAR_OBJ_GFX_ID_1, OBJ_EVENT_GFX_STEVEN
-	goto KantoExhibition_EventScript_SetupChampionGfxId
+	return
 
 MasterRank_EventScript_SetupChampionGfxIdEnd::
 	call MasterRank_EventScript_SetupChampionGfxId

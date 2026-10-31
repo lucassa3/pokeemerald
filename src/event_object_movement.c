@@ -1469,6 +1469,10 @@ static u8 TrySetupObjectEventSprite(const struct ObjectEventTemplate *objectEven
     {
         LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, paletteSlot);
     }
+    else if (paletteSlot == PALSLOT_NPC_SPECIAL_2)
+    {
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
+    }
     else if (paletteSlot >= 16)
     {
         paletteSlot -= 16;
@@ -1657,6 +1661,8 @@ u8 CreateVirtualObject(u8 graphicsId, u8 virtualObjId, s16 x, s16 y, u8 elevatio
         sprite->sVirtualObjElev = elevation;
         if (graphicsInfo->paletteSlot == PALSLOT_NPC_SPECIAL)
             LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+        else if (graphicsInfo->paletteSlot == PALSLOT_NPC_SPECIAL_2)
+            PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
         else if (graphicsInfo->paletteSlot >= 16)
             _PatchObjectPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot | 0xf0);
 
@@ -1789,6 +1795,10 @@ static void SpawnObjectEventOnReturnToField(u8 objectEventId, s16 x, s16 y)
     {
         LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
     }
+    else if (paletteSlot == PALSLOT_NPC_SPECIAL_2)
+    {
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
+    }
     else if (paletteSlot >= 16)
     {
         paletteSlot -= 16;
@@ -1863,6 +1873,10 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 graphicsId)
     else if (paletteSlot == PALSLOT_NPC_SPECIAL)
     {
         LoadSpecialObjectReflectionPalette(graphicsInfo->paletteTag, graphicsInfo->paletteSlot);
+    }
+    else if (paletteSlot == PALSLOT_NPC_SPECIAL_2)
+    {
+        PatchObjectPalette(graphicsInfo->paletteTag, paletteSlot);
     }
     else if (paletteSlot >= 16)
     {

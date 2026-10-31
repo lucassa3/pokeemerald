@@ -31,6 +31,7 @@
 #include "region_map.h"
 #include "decoration.h"
 #include "secret_base.h"
+#include "tilesets.h"
 #include "tv.h"
 #include "pokeball.h"
 #include "data.h"
@@ -855,6 +856,10 @@ static void SetTVMetatilesOnMap(int width, int height, u16 metatileId)
 {
     int x;
     int y;
+
+    // Emerald's TV metatile IDs mean other tiles in FireRed's Building tileset (gTileset_FrlgBuilding)
+    if (gMapHeader.mapLayout->primaryTileset == &gTileset_FrlgBuilding)
+        return;
 
     for (y = 0; y < height; y++)
     {

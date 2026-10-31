@@ -25,6 +25,10 @@ enum {
     // the remaining sprite palette slots (12-15) are used by field effects, the interface, etc.
 };
 
+// A second special NPC palette, for a sprite that shares a map with another special NPC (Prof. Oak and Blue in
+// Kanto's Champion room). It takes the special NPC's reflection slot, so it's only for maps without reflections.
+#define PALSLOT_NPC_SPECIAL_2 PALSLOT_NPC_SPECIAL_REFLECTION
+
 enum SpinnerRunnerFollowPatterns
 {
     RUNFOLLOW_ANY,

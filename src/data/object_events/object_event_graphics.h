@@ -347,6 +347,7 @@ const u32 gObjectEventPic_Red[] = INCGFX_U32("graphics/object_events/pics/people
 const u32 gObjectEventPic_Leaf[] = INCGFX_U32("graphics/object_events/pics/people/leaf.png", ".4bpp", "-mwidth 2 -mheight 4");
 
 // Kanto Exhibition, from pokefirered (they use FRLG's NPC palettes)
+const u32 gObjectEventPic_ProfOak[] = INCGFX_U32("graphics/object_events/pics/people/kanto_prof_oak.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_Lorelei[] = INCGFX_U32("graphics/object_events/pics/people/kanto_lorelei.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_Bruno[] = INCGFX_U32("graphics/object_events/pics/people/kanto_bruno.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_Agatha[] = INCGFX_U32("graphics/object_events/pics/people/kanto_agatha.png", ".4bpp", "-mwidth 2 -mheight 4");

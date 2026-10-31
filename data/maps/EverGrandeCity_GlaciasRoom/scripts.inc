@@ -1,5 +1,4 @@
 EverGrandeCity_GlaciasRoom_MapScripts::
-	map_script MAP_SCRIPT_ON_TRANSITION, KantoExhibition_EventScript_SetupGlaciasRoomGfx
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, EverGrandeCity_GlaciasRoom_OnFrame
 	map_script MAP_SCRIPT_ON_LOAD, EverGrandeCity_GlaciasRoom_OnLoad
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, EverGrandeCity_GlaciasRoom_OnWarp
@@ -40,7 +39,6 @@ EverGrandeCity_GlaciasRoom_EventScript_CloseDoor::
 EverGrandeCity_GlaciasRoom_EventScript_Glacia::
 	lock
 	faceplayer
-	goto_if_ne VAR_LEAGUE_CHALLENGE, LEAGUE_CHALLENGE_MASTER_RANK, KantoExhibition_EventScript_Agatha
 	goto_if_ge VAR_MASTER_RANK_STATE, MASTER_RANK_UNLOCKED, EverGrandeCity_GlaciasRoom_EventScript_MasterRank
 	goto_if_set FLAG_DEFEATED_ELITE_4_GLACIA, EverGrandeCity_GlaciasRoom_EventScript_PostBattleSpeech
 	playbgm MUS_ENCOUNTER_ELITE_FOUR, FALSE
