@@ -543,3 +543,4 @@ gSpecials::
 	def_special IsGymLeaderRematchChainComplete
 	def_special GetMonsStateToDoubles
 	def_special DoPokemonLeagueLightingEffect
+	def_special SetRepelStepsFromItem
