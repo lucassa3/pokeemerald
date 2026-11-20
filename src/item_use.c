@@ -854,6 +854,8 @@ static void Task_UseRepel(u8 taskId)
     if (!IsSEPlaying())
     {
         VarSet(VAR_REPEL_STEP_COUNT, GetItemHoldEffectParam(gSpecialVar_ItemId));
+        if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
+            VarSet(VAR_REPEL_LAST_USED, gSpecialVar_ItemId); // for EventScript_RepelWoreOff
         RemoveUsedItem();
         if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
             DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);

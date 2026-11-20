@@ -42,6 +42,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
+#include "item.h"
 #include "tilesets.h"
 #include "text.h"
 #include "tv.h"
@@ -4434,4 +4435,10 @@ static void Task_CancelPokemonLeagueLightingEffect(u8 taskId)
             BlendPalettes(1 << 7, 16, RGB_BLACK);
         DestroyTask(taskId);
     }
+}
+
+// EventScript_RepelWoreOff: VAR_0x8004 is the Repel being used again
+void SetRepelStepsFromItem(void)
+{
+    VarSet(VAR_REPEL_STEP_COUNT, GetItemHoldEffectParam(gSpecialVar_0x8004));
 }
