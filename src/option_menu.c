@@ -23,6 +23,7 @@
 #define tSound data[4]
 #define tButtonMode data[5]
 #define tWindowFrameType data[6]
+#define tExpMultiplier data[7]
 
 enum
 {
@@ -32,6 +33,7 @@ enum
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
+    MENUITEM_EXPMULTIPLIER,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -48,6 +50,7 @@ enum
 #define YPOS_SOUND        (MENUITEM_SOUND * 16)
 #define YPOS_BUTTONMODE   (MENUITEM_BUTTONMODE * 16)
 #define YPOS_FRAMETYPE    (MENUITEM_FRAMETYPE * 16)
+#define YPOS_EXPMULTIPLIER (MENUITEM_EXPMULTIPLIER * 16)
 
 static void Task_OptionMenuFadeIn(u8 taskId);
 static void Task_OptionMenuProcessInput(u8 taskId);
@@ -66,9 +69,14 @@ static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection);
 static u8 ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection);
+static u8 ExpMultiplier_ProcessInput(u8 selection);
+static void ExpMultiplier_DrawChoices(u8 selection);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(void);
 static void DrawBgWindowFrames(void);
+
+// Window frame tiles, loaded after the options list window's tiles (it starts at 0x36 and is 26x16 tiles)
+#define TILE_FRAME_START 0x1E0
 
 EWRAM_DATA static bool8 sArrowPressed = FALSE;
 
@@ -84,6 +92,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_SOUND]       = gText_Sound,
     [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
     [MENUITEM_FRAMETYPE]   = gText_Frame,
+    [MENUITEM_EXPMULTIPLIER] = gText_ExpGain,
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
 
@@ -101,9 +110,9 @@ static const struct WindowTemplate sOptionMenuWinTemplates[] =
     [WIN_OPTIONS] = {
         .bg = 0,
         .tilemapLeft = 2,
-        .tilemapTop = 5,
+        .tilemapTop = 3,
         .width = 26,
-        .height = 14,
+        .height = 16,
         .paletteNum = 1,
         .baseBlock = 0x36
     },
@@ -195,7 +204,7 @@ void CB2_InitOptionMenu(void)
         gMain.state++;
         break;
     case 3:
-        LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
+        LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, TILE_FRAME_START);
         gMain.state++;
         break;
     case 4:
@@ -234,6 +243,7 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
+        gTasks[taskId].tExpMultiplier = gSaveBlock2Ptr->optionsExpMultiplier;
 
         TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed);
         BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
@@ -241,6 +251,7 @@ void CB2_InitOptionMenu(void)
         Sound_DrawChoices(gTasks[taskId].tSound);
         ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
         FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
+        ExpMultiplier_DrawChoices(gTasks[taskId].tExpMultiplier);
         HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
 
         CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
@@ -336,6 +347,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tWindowFrameType)
                 FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
             break;
+        case MENUITEM_EXPMULTIPLIER:
+            previousOption = gTasks[taskId].tExpMultiplier;
+            gTasks[taskId].tExpMultiplier = ExpMultiplier_ProcessInput(gTasks[taskId].tExpMultiplier);
+
+            if (previousOption != gTasks[taskId].tExpMultiplier)
+                ExpMultiplier_DrawChoices(gTasks[taskId].tExpMultiplier);
+            break;
         default:
             return;
         }
@@ -356,6 +374,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
+    gSaveBlock2Ptr->optionsExpMultiplier = gTasks[taskId].tExpMultiplier;
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -374,7 +393,7 @@ static void Task_OptionMenuFadeOut(u8 taskId)
 static void HighlightOptionMenuItem(u8 index)
 {
     SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(16, DISPLAY_WIDTH - 16));
-    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(index * 16 + 40, index * 16 + 56));
+    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(index * 16 + 24, index * 16 + 40));
 }
 
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
@@ -520,7 +539,7 @@ static u8 FrameType_ProcessInput(u8 selection)
         else
             selection = 0;
 
-        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
+        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, TILE_FRAME_START);
         LoadPalette(GetWindowFrameTilesPal(selection)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
         sArrowPressed = TRUE;
     }
@@ -531,7 +550,7 @@ static u8 FrameType_ProcessInput(u8 selection)
         else
             selection = WINDOW_FRAMES_COUNT - 1;
 
-        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, 0x1A2);
+        LoadBgTiles(1, GetWindowFrameTilesPal(selection)->tiles, 0x120, TILE_FRAME_START);
         LoadPalette(GetWindowFrameTilesPal(selection)->pal, BG_PLTT_ID(7), PLTT_SIZE_4BPP);
         sArrowPressed = TRUE;
     }
@@ -615,6 +634,52 @@ static void ButtonMode_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(FONT_NORMAL, gText_ButtonTypeLEqualsA, 198), YPOS_BUTTONMODE, styles[2]);
 }
 
+// Shown left to right as OFF, 1x, 2x, 4x; stored as OPTIONS_EXP_*
+static const u8 sExpMultiplierOrder[] = {OPTIONS_EXP_OFF, OPTIONS_EXP_1X, OPTIONS_EXP_2X, OPTIONS_EXP_4X};
+
+static u8 ExpMultiplier_ProcessInput(u8 selection)
+{
+    u8 i;
+
+    for (i = 0; i < ARRAY_COUNT(sExpMultiplierOrder) - 1 && sExpMultiplierOrder[i] != selection; i++)
+        ;
+
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        i = (i + 1) % ARRAY_COUNT(sExpMultiplierOrder);
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        i = (i + ARRAY_COUNT(sExpMultiplierOrder) - 1) % ARRAY_COUNT(sExpMultiplierOrder);
+        sArrowPressed = TRUE;
+    }
+    return sExpMultiplierOrder[i];
+}
+
+static void ExpMultiplier_DrawChoices(u8 selection)
+{
+    static const u8 *const texts[] = {gText_ExpGainOff, gText_ExpGain1x, gText_ExpGain2x, gText_ExpGain4x};
+    s32 widths[ARRAY_COUNT(texts)], gap, x;
+    u8 i;
+
+    // Spread the four choices evenly between x 104 and 198, like the other rows
+    gap = 198 - 104;
+    for (i = 0; i < ARRAY_COUNT(texts); i++)
+    {
+        widths[i] = GetStringWidth(FONT_NORMAL, texts[i], 0);
+        gap -= widths[i];
+    }
+    gap /= (s32)ARRAY_COUNT(texts) - 1;
+
+    x = 104;
+    for (i = 0; i < ARRAY_COUNT(texts); i++)
+    {
+        DrawOptionMenuChoice(texts[i], x, YPOS_EXPMULTIPLIER, sExpMultiplierOrder[i] == selection);
+        x += widths[i] + gap;
+    }
+}
+
 static void DrawHeaderText(void)
 {
     FillWindowPixelBuffer(WIN_HEADER, PIXEL_FILL(1));
@@ -632,34 +697,25 @@ static void DrawOptionMenuTexts(void)
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
 
-#define TILE_TOP_CORNER_L 0x1A2
-#define TILE_TOP_EDGE     0x1A3
-#define TILE_TOP_CORNER_R 0x1A4
-#define TILE_LEFT_EDGE    0x1A5
-#define TILE_RIGHT_EDGE   0x1A7
-#define TILE_BOT_CORNER_L 0x1A8
-#define TILE_BOT_EDGE     0x1A9
-#define TILE_BOT_CORNER_R 0x1AA
+#define TILE_TOP_CORNER_L (TILE_FRAME_START + 0)
+#define TILE_TOP_EDGE     (TILE_FRAME_START + 1)
+#define TILE_TOP_CORNER_R (TILE_FRAME_START + 2)
+#define TILE_LEFT_EDGE    (TILE_FRAME_START + 3)
+#define TILE_RIGHT_EDGE   (TILE_FRAME_START + 5)
+#define TILE_BOT_CORNER_L (TILE_FRAME_START + 6)
+#define TILE_BOT_EDGE     (TILE_FRAME_START + 7)
+#define TILE_BOT_CORNER_R (TILE_FRAME_START + 8)
 
 static void DrawBgWindowFrames(void)
 {
     //                     bg, tile,              x, y, width, height, palNum
-    // Draw title window frame
+    // One frame around the title (rows 1-2) and the options list (rows 3-18): with 8 options there's no room for
+    // the title's own frame
     FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,  1,  0,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,      2,  0, 27,  1,  7);
+    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,      2,  0, 26,  1,  7);
     FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R, 28,  0,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE,     1,  1,  1,  2,  7);
-    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,   28,  1,  1,  2,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,  1,  3,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_EDGE,      2,  3, 27,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R, 28,  3,  1,  1,  7);
-
-    // Draw options list window frame
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_L,  1,  4,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_EDGE,      2,  4, 26,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_TOP_CORNER_R, 28,  4,  1,  1,  7);
-    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE,     1,  5,  1, 18,  7);
-    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,   28,  5,  1, 18,  7);
+    FillBgTilemapBufferRect(1, TILE_LEFT_EDGE,     1,  1,  1, 18,  7);
+    FillBgTilemapBufferRect(1, TILE_RIGHT_EDGE,   28,  1,  1, 18,  7);
     FillBgTilemapBufferRect(1, TILE_BOT_CORNER_L,  1, 19,  1,  1,  7);
     FillBgTilemapBufferRect(1, TILE_BOT_EDGE,      2, 19, 26,  1,  7);
     FillBgTilemapBufferRect(1, TILE_BOT_CORNER_R, 28, 19,  1,  1,  7);

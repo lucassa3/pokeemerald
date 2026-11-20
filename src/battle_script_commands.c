@@ -3252,6 +3252,24 @@ static void Cmd_jumpiftype(void)
         gBattlescriptCurrInstr += 7;
 }
 
+// The Options menu's EXP. GAIN setting (OPTIONS_EXP_*), applied after all of the vanilla bonuses. The amount is
+// sent to the battle controller as a u16.
+static s32 ApplyExpMultiplier(s32 exp)
+{
+    switch (gSaveBlock2Ptr->optionsExpMultiplier)
+    {
+    case OPTIONS_EXP_2X:
+        exp *= 2;
+        break;
+    case OPTIONS_EXP_4X:
+        exp *= 4;
+        break;
+    }
+    if (exp > 0xFFFF)
+        exp = 0xFFFF;
+    return exp;
+}
+
 static void Cmd_getexp(void)
 {
     u16 item;
@@ -3354,6 +3372,21 @@ static void Cmd_getexp(void)
                 gBattleScripting.getexpState = 5;
                 gBattleMoveDamage = 0; // used for exp
             }
+            else if (gSaveBlock2Ptr->optionsExpMultiplier == OPTIONS_EXP_OFF)
+            {
+                // EXP. GAIN OFF: no EXP or message, but EVs are still gained
+                if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && gBattleMons[0].hp != 0 && !gBattleStruct->wildVictorySong)
+                {
+                    BattleStopLowHpSound();
+                    PlayBGM(MUS_VICTORY_WILD);
+                    gBattleStruct->wildVictorySong++;
+                }
+                if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
+                    MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species);
+                *(&gBattleStruct->sentInPokes) >>= 1;
+                gBattleScripting.getexpState = 5;
+                gBattleMoveDamage = 0; // used for exp
+            }
             else
             {
                 // music change in wild battle after fainting a poke
@@ -3395,6 +3428,8 @@ static void Cmd_getexp(void)
                     {
                         i = STRINGID_EMPTYSTRING4;
                     }
+
+                    gBattleMoveDamage = ApplyExpMultiplier(gBattleMoveDamage);
 
                     // get exp getter battler
                     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)

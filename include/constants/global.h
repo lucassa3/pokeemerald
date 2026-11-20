@@ -134,6 +134,13 @@
 #define OPTIONS_BATTLE_STYLE_SHIFT 0
 #define OPTIONS_BATTLE_STYLE_SET 1
 
+// Battle EXP multiplier (Options menu). OFF gives no battle EXP (EVs are still gained); Rare Candies and the Daycare
+// aren't affected.
+#define OPTIONS_EXP_1X  0
+#define OPTIONS_EXP_2X  1
+#define OPTIONS_EXP_4X  2
+#define OPTIONS_EXP_OFF 3
+
 #define DIR_NONE        0
 #define DIR_SOUTH       1
 #define DIR_NORTH       2
